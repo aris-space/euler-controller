@@ -9,7 +9,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include "../euler_state_estimation/flight_phase_detection/flight_phase_detection.h"
+#include "../euler_state_estimation/Inc/Sim_Con/flight_phase_detection.h"
 #include "controller_const.h"
 
 
