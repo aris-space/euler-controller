@@ -36,7 +36,11 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         /* Check if the apogee approach phase was entered */
         check_apogee_approach_phase(control_data, flight_phase_detection);
     }
-    else {
+    else if ((flight_phase_detection->flight_phase == BALLISTIC_DESCENT) && 
+            ((flight_phase_detection->mach_regime == SUBSONIC) || (flight_phase_detection->mach_regime == TRANSONIC))) {
+        /* actuate airbrakes during ballistic descent to slow down rocket */
+        control_data->control_input = 1;
+    } else {
         /* This part of the controller is accessed, if the controller should not be operational or if the rocket is the apogee approach phase*/
         /* Airbrakes need to be retracted to prevent entanglement with the parachutes */
         control_data_reset(control_data);
