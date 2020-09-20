@@ -7,9 +7,7 @@
 /* In this file, all the controller related function as the controller itself will be defined */
 
 void compute_control_input(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection){
-    if ((flight_phase_detection->flight_phase == COASTING) &&
-        ((flight_phase_detection->mach_regime == SUBSONIC) || (flight_phase_detection->mach_regime == TRANSONIC)) &&
-        (flight_phase_detection->mach_number < CONTROL_ACTIVATION_MACH_NUMBER) && (!control_data->apogee_approach_phase)) {
+    if (flight_phase_detection->flight_phase == CONTROL) {
 
         /* caluclate Gains and Reference velocity for given altitude AGL */
         evaluate_polyfit(control_data);
@@ -32,9 +30,6 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         /* Compute the integrated error */
         control_data->integrated_error = fmaxf(control_data->lowerboundary_aw, fminf(control_data->integrated_error
         + DELTA_T * control_data->reference_error, control_data->upperboundary_aw));
-
-        /* Check if the apogee approach phase was entered */
-        check_apogee_approach_phase(control_data, flight_phase_detection);
     }
     else if ((flight_phase_detection->flight_phase == BALLISTIC_DESCENT) && 
             ((flight_phase_detection->mach_regime == SUBSONIC) || (flight_phase_detection->mach_regime == TRANSONIC))) {
@@ -44,7 +39,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         /* This part of the controller is accessed, if the controller should not be operational or if the rocket is the apogee approach phase*/
         /* Airbrakes need to be retracted to prevent entanglement with the parachutes */
         control_data_reset(control_data);
-        if (control_data->apogee_approach_phase == true) {
+        if (flight_phase_detection->flight_phase == APOGEE_APPROACH || flight_phase_detection->flight_phase == BIAS_RESET) {
             evaluate_polyfit(control_data);
             compute_reference_error(control_data);
         }
@@ -63,9 +58,6 @@ void control_data_init(control_data_t *control_data){
 
     control_data->lowerboundary_aw = 0;
     control_data->upperboundary_aw = 0;
-
-    control_data->safety_counter = 0;
-    control_data->apogee_approach_phase = false;
 
     init_coeff(control_data);
 
@@ -113,18 +105,6 @@ void compute_reference_error(control_data_t *control_data) {
     }
     else{
         control_data->reference_error = control_data->sf_velocity - control_data->ref_velocity;
-    }
-}
-
-void check_apogee_approach_phase(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection){
-    /* if n positive samples are counted, the apogee approach phase is entered */
-    if (flight_phase_detection->mach_number < CONTROL_DEACTIVATION_MACH_NUMBER) {
-        control_data->safety_counter += 1;
-    }
-
-    /* Check if the apogee approach phase should be entered*/
-    if (control_data->safety_counter >= SAFETY_COUNTER_THRESHOLD) {
-        control_data->apogee_approach_phase = true;
     }
 }
 

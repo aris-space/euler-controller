@@ -10,12 +10,11 @@
 #include "controller.h"
 #include <math.h>
 
+#define CONTROL_ACTIVE true //
 #define LQR_ACTIVE true                                                                         //
 #define CONTROLLER_SAMPLING_FREQ 100                                                            // Hz
 #define POLY_DEG 30                                                                             // NEEDS CHANGE
-#define OPT_TRAJ_CONTROL_INPUT 0.495415061477727                                               // -
-#define CONTROL_ACTIVATION_MACH_NUMBER 0.55                                                     // -
-#define CONTROL_DEACTIVATION_MACH_NUMBER 0.1                                                    // -
+#define OPT_TRAJ_CONTROL_INPUT 0.495415061477727                                                    // -
 #define CONTROL_DEACTIVATION_ALTITUDE_AGL 1382.1581114217445                                     // NEEDS CHANGE
 #define MIN_BOUNDARAY_AW 0.5                                                                    // m
 #define NUM_POLYFITS 4                                                                          // -
@@ -40,9 +39,6 @@ typedef struct {
 
     float lowerboundary_aw;
     float upperboundary_aw;
-
-    uint16_t safety_counter;
-    bool apogee_approach_phase;
 
     double gains[NUM_POLYFITS-1];
     double poly_coeff[NUM_POLYFITS][POLY_DEG+1];
