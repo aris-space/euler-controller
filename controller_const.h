@@ -20,7 +20,6 @@
 #define NUM_POLYFITS 4                                                                          // -
 #define NUM_GAINS NUM_POLYFITS - 1                                                              // -
 #define M_AW 0.005                                                                              // -
-#define SAFETY_COUNTER_THRESHOLD (int)(fmaxf(ceil(CONTROLLER_SAMPLING_FREQ/20.0), 2))           // -
 #define DELTA_T 1.0f / CONTROLLER_SAMPLING_FREQ                                                 // s
 #define TARGET_AGOGEE 1435.0                                                                    // m
 #define TEST_CONTROLLER_USE_VELOCITY false                                                       // -
