@@ -121,7 +121,7 @@ void compute_reference_error(control_data_t *control_data) {
     }
 }
 
-#if (AVIONICS == 0)
+#ifdef EULER_SIMCON
 void save_evaluated_polyfits_to_file(control_data_t *control_data){
     int lin_num = 10000;
     FILE *fptr;
