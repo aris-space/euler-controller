@@ -2,7 +2,7 @@
 // Created by Tun Kapgen on 05.06.20.
 //
 
-#include "controller.h"
+#include "../Inc/controller.h"
 
 /* In this file, all the controller related function as the controller itself will be defined */
 
