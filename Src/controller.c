@@ -69,6 +69,10 @@ void control_data_reset(control_data_t *control_data){
 void control_data_init(control_data_t *control_data){
     control_data_reset(control_data);
 
+    control_data->sf_velocity = 0;
+    control_data->sf_ref_altitude_AGL = 0;
+    control_data->tracking_feedback = 0;
+
     control_data->lowerboundary_aw = 0;
     control_data->upperboundary_aw = 0;
 

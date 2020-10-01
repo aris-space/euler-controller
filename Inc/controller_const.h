@@ -37,6 +37,7 @@ typedef struct {
     float sf_ref_altitude_AGL;
     float sf_velocity;
     float ref_velocity;
+    float tracking_feedback;
 
     float lowerboundary_aw;
     float upperboundary_aw;
