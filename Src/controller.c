@@ -27,6 +27,8 @@ void control_data_init(control_data_t *control_data){
 
     #if CONTROLLER_TYPE == 1
         init_gains(control_data);
+    #elif CONTROLLER_TYPE == 2
+        init_params(control_data)
     #endif
 }
 

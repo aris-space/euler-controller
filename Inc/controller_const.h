@@ -11,7 +11,7 @@
 #include <math.h>
 
 /* CONTROLLER_TYPE: 0=TEST_CONTROLLER, 1=LQR, 2=MPC */
-#define CONTROLLER_TYPE 1                                                                    
+#define CONTROLLER_TYPE 2                                                                    
 #define CONTROLLER_SAMPLING_FREQ 100                                                            // Hz
 #define POLY_DEG 30                                                                             // NEEDS CHANGE
 #define OPT_TRAJ_CONTROL_INPUT 0.495415061477727                                                    // -
@@ -26,7 +26,9 @@
     #define TEST_CONTROLLER_MAX_VELOCITY 3.0f                                                       // m/s
     #define TEST_CONTROLLER_MAX_ALTITUDE 20.0f
 #elif CONTROLLER_TYPE == 1
-    #define NUM_GAINS 3    
+    #define NUM_GAINS 3 
+#elif CONTROLLER_TYPE == 2
+    #define SOLVER_NAME "MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle"
 #endif
 
 /* Types */
@@ -48,6 +50,9 @@ typedef struct {
     #if CONTROLLER_TYPE == 1
         double gains[NUM_GAINS];
         double poly_coeff[NUM_GAINS][POLY_DEG+1];
+    #elif CONTROLLER_TYPE == 2:
+        float Q[3][3];
+        float R;
     #endif
 
 } control_data_t;
