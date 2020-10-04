@@ -16,9 +16,7 @@
 #define POLY_DEG 30                                                                             // NEEDS CHANGE
 #define OPT_TRAJ_CONTROL_INPUT 0.495415061477727                                                    // -
 #define CONTROL_DEACTIVATION_ALTITUDE_AGL 1382.1581114217445                                     // NEEDS CHANGE
-#define MIN_BOUNDARAY_AW 0.5                                                                    // m
-#define NUM_POLYFITS 4                                                                          // -
-#define NUM_GAINS NUM_POLYFITS - 1                                                              // -
+#define MIN_BOUNDARAY_AW 0.5                                                                        // -                                                             // -
 #define M_AW 0.005                                                                              // -
 #define DELTA_T 1.0f / CONTROLLER_SAMPLING_FREQ                                                 // s
 #define TARGET_AGOGEE 1435.0                                                                    // m                                                   // m
@@ -26,7 +24,9 @@
 #if CONTROLLER_TYPE == 0
     #define TEST_CONTROLLER_USE_VELOCITY false                                                       // -
     #define TEST_CONTROLLER_MAX_VELOCITY 3.0f                                                       // m/s
-    #define TEST_CONTROLLER_MAX_ALTITUDE 20.0f   
+    #define TEST_CONTROLLER_MAX_ALTITUDE 20.0f
+#elif CONTROLLER_TYPE == 1
+    #define NUM_GAINS 3    
 #endif
 
 /* Types */
@@ -43,8 +43,12 @@ typedef struct {
     float lowerboundary_aw;
     float upperboundary_aw;
 
-    double gains[NUM_POLYFITS-1];
-    double poly_coeff[NUM_POLYFITS][POLY_DEG+1];
+    double optimal_trajectory_coeff[POLY_DEG+1];
+
+    #if CONTROLLER_TYPE == 1
+        double gains[NUM_GAINS];
+        double poly_coeff[NUM_GAINS][POLY_DEG+1];
+    #endif
 
 } control_data_t;
 
