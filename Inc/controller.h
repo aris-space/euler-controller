@@ -14,16 +14,18 @@
 #include "../../aris-euler-state-estimation/Inc/state_est_const.h"
 #include "controller_const.h"
 
+#if CONTROLLER_TYPE == 1
+    #include "lqr_controller.h"
+#elif CONTROLLER_TYPE == 0
+    #include "test_controller.h" 
+#endif
 
 /* function declaration */
 void control_data_init(control_data_t *control_data);
 void control_data_reset(control_data_t *control_data);
 void control_step(control_data_t *control_data, state_est_data_t *state_est_data, flight_phase_detection_t *flight_phase_detection);
-void compute_control_input(control_data_t *control_data, flight_phase_detection_t *current_flight_phase_detection);
-void evaluate_polyfit(control_data_t *control_data);
 void compute_antiwindup_boundaries(control_data_t *control_data);
 void compute_reference_error(control_data_t *control_data);
-void compute_test_control_input(control_data_t *control_data);
 #ifdef EULER_SIMCON
 void save_evaluated_polyfits_to_file(control_data_t *control_data);
 #endif
