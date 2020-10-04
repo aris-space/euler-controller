@@ -28,7 +28,7 @@ void control_data_init(control_data_t *control_data){
     #if CONTROLLER_TYPE == 1
         init_gains(control_data);
     #elif CONTROLLER_TYPE == 2
-        init_params(control_data)
+        init_params(control_data);
     #endif
 }
 
@@ -86,7 +86,7 @@ void compute_integrated_error(control_data_t *control_data) {
     + DELTA_T * control_data->reference_error, control_data->upperboundary_aw));
 }
 
-#ifdef EULER_SIMCON
+#if defined(EULER_SIMCON) && CONTROLLER_TYPE == 1
 void save_evaluated_polyfits_to_file(control_data_t *control_data){
     int lin_num = 10000;
     FILE *fptr;

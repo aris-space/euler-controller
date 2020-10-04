@@ -18,7 +18,7 @@ void init_gains(control_data_t *control_data){
 void compute_control_input(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection){
     if (flight_phase_detection->flight_phase == CONTROL) {
 
-        /* calculate Gains and Reference velocity for given altitude AGL */
+        /* calculate gains */
         eval_gains_polyfit(control_data);
 
         /* Calculate Velocity Error */

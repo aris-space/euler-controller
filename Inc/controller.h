@@ -21,7 +21,7 @@ void control_step(control_data_t *control_data, state_est_data_t *state_est_data
 void eval_optimal_trajectory_polyfit(control_data_t *control_data);
 void compute_reference_error(control_data_t *control_data);
 void compute_integrated_error(control_data_t *control_data);
-#ifdef EULER_SIMCON
+#if defined(EULER_SIMCON) && CONTROLLER_TYPE == 1
 void save_evaluated_polyfits_to_file(control_data_t *control_data);
 #endif
 

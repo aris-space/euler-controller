@@ -37,7 +37,6 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         /* Airbrakes need to be retracted to prevent entanglement with the parachutes */
         control_data_reset(control_data);
         if (flight_phase_detection->flight_phase == APOGEE_APPROACH || flight_phase_detection->flight_phase == BIAS_RESET) {
-            eval_gains_polyfit(control_data);
             compute_reference_error(control_data);
         }
     }

@@ -50,7 +50,7 @@ typedef struct {
     #if CONTROLLER_TYPE == 1
         double gains[NUM_GAINS];
         double poly_coeff[NUM_GAINS][POLY_DEG+1];
-    #elif CONTROLLER_TYPE == 2:
+    #elif CONTROLLER_TYPE == 2
         float Q[3][3];
         float R;
     #endif
