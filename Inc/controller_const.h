@@ -29,6 +29,10 @@
     #define NUM_GAINS 3 
 #elif CONTROLLER_TYPE == 2
     #define SOLVER_NAME "MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle"
+    #define SOLVER_HEADER "../MPC_solvers/" SOLVER_NAME "/include/" SOLVER_NAME ".h"
+    // #include SOLVER_HEADER
+
+    #include "../MPC_solvers/MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle/include/MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle.h"
 #endif
 
 /* Types */
@@ -53,6 +57,9 @@ typedef struct {
     #elif CONTROLLER_TYPE == 2
         float Q[3][3];
         float R;
+        MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_params mpc_params;
+        MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_output mpc_output;
+        MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_info mpc_info;
     #endif
 
 } control_data_t;

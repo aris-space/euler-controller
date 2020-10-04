@@ -23,6 +23,9 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
                               {0, control_data->Q[1][0], control_data->Q[1][1], control_data->Q[1][2]}, 
                               {0, control_data->Q[2][0], control_data->Q[2][1], control_data->Q[2][2]}};
 
+        MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_solve(&control_data->mpc_params, &control_data->mpc_output, 
+                                                                                    &control_data->mpc_info, NULL);
+
         /* Check that the control input is between 0 and 1 */
         control_data->control_input = fmaxf(0, fminf(control_data->control_input, 1));
 
