@@ -62,15 +62,6 @@ void eval_optimal_trajectory_polyfit(control_data_t *control_data) {
     }
 }
 
-void compute_antiwindup_boundaries(control_data_t *control_data) {
-    control_data->upperboundary_aw = fmaxf(M_AW *
-            (CONTROL_DEACTIVATION_ALTITUDE_AGL - control_data->sf_ref_altitude_AGL), MIN_BOUNDARAY_AW);
-    if (CONTROL_DEACTIVATION_ALTITUDE_AGL < control_data->sf_ref_altitude_AGL) {
-        control_data->upperboundary_aw = 0;
-    }
-    control_data->lowerboundary_aw = - control_data->upperboundary_aw;
-}
-
 void compute_reference_error(control_data_t *control_data) {
     if (control_data->ref_velocity < 0) {
         control_data->reference_error = control_data->sf_velocity;
@@ -78,6 +69,19 @@ void compute_reference_error(control_data_t *control_data) {
     else{
         control_data->reference_error = control_data->sf_velocity - control_data->ref_velocity;
     }
+}
+
+void compute_integrated_error(control_data_t *control_data) {
+    control_data->upperboundary_aw = fmaxf(M_AW *
+            (CONTROL_DEACTIVATION_ALTITUDE_AGL - control_data->sf_ref_altitude_AGL), MIN_BOUNDARAY_AW);
+    if (CONTROL_DEACTIVATION_ALTITUDE_AGL < control_data->sf_ref_altitude_AGL) {
+        control_data->upperboundary_aw = 0;
+    }
+    control_data->lowerboundary_aw = - control_data->upperboundary_aw;
+
+    /* Compute the integrated error */
+    control_data->integrated_error = fmaxf(control_data->lowerboundary_aw, fminf(control_data->integrated_error
+    + DELTA_T * control_data->reference_error, control_data->upperboundary_aw));
 }
 
 #ifdef EULER_SIMCON

@@ -33,12 +33,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         /* Check that the control input is between 0 and 1 */
         control_data->control_input = fmaxf(0, fminf(control_data->control_input, 1));
 
-        /* Compute boundaries for the antiwindup */
-        compute_antiwindup_boundaries(control_data);
-
-        /* Compute the integrated error */
-        control_data->integrated_error = fmaxf(control_data->lowerboundary_aw, fminf(control_data->integrated_error
-        + DELTA_T * control_data->reference_error, control_data->upperboundary_aw));
+        compute_integrated_error(control_data);
     }
     else if ((flight_phase_detection->flight_phase == BALLISTIC_DESCENT) && 
             ((flight_phase_detection->mach_regime == SUBSONIC) || (flight_phase_detection->mach_regime == TRANSONIC))) {
