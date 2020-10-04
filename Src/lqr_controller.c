@@ -15,8 +15,8 @@ void init_gains_coeff(control_data_t *control_data){
 void compute_control_input(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection){
     if (flight_phase_detection->flight_phase == CONTROL) {
 
-        /* caluclate Gains and Reference velocity for given altitude AGL */
-        evaluate_lqr_gains_polyfit(control_data);
+        /* calculate Gains and Reference velocity for given altitude AGL */
+        eval_gains_polyfit(control_data);
 
         /* Calculate Velocity Error */
         compute_reference_error(control_data);
@@ -46,14 +46,14 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         /* Airbrakes need to be retracted to prevent entanglement with the parachutes */
         control_data_reset(control_data);
         if (flight_phase_detection->flight_phase == APOGEE_APPROACH || flight_phase_detection->flight_phase == BIAS_RESET) {
-            evaluate_lqr_gains_polyfit(control_data);
+            eval_gains_polyfit(control_data);
             compute_reference_error(control_data);
         }
     }
 }
 
 /* Does the Polynomial Calculation of the reference velocity */
-void evaluate_lqr_gains_polyfit(control_data_t *control_data) {
+void eval_gains_polyfit(control_data_t *control_data) {
     /* For Speed */
     double x_placeholder = 0;
 
@@ -62,16 +62,11 @@ void evaluate_lqr_gains_polyfit(control_data_t *control_data) {
         control_data->gains[i] = 0;
     }
 
-    /* Reset ref_velocity_placeholder*/
-    double ref_velocity_placeholder = 0;
-
     /* For loop */
     for (int i = 0; i < POLY_DEG + 1; ++i) {
         x_placeholder = pow(control_data->sf_ref_altitude_AGL, (double)(POLY_DEG - i));
         control_data->gains[0] += control_data->poly_coeff[0][i] * x_placeholder;
         control_data->gains[1] += control_data->poly_coeff[1][i] * x_placeholder;
         control_data->gains[2] += control_data->poly_coeff[2][i] * x_placeholder;
-        ref_velocity_placeholder += (control_data->poly_coeff[3][i] * x_placeholder);
     }
-    control_data->ref_velocity = (float)ref_velocity_placeholder;
 }

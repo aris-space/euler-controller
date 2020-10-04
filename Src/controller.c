@@ -35,7 +35,24 @@ void control_step(control_data_t *control_data, state_est_data_t *state_est_data
     control_data->sf_ref_altitude_AGL = ((float) state_est_data->position_world[2]) / 1000;
     control_data->tracking_feedback = ((float) state_est_data->airbrake_extension) / 1000000;
 
+    eval_optimal_trajectory_polyfit(control_data);
     compute_control_input(control_data, flight_phase_detection);
+}
+
+void eval_optimal_trajectory_polyfit(control_data_t *control_data) {
+    /* For Speed */
+    double x_placeholder = 0;
+
+    /* Reset ref_velocity_placeholder*/
+    double ref_velocity_placeholder = 0;
+
+    control_data->ref_velocity = (float)ref_velocity_placeholder;
+
+    /* For loop */
+    for (int i = 0; i < POLY_DEG + 1; ++i) {
+        x_placeholder = pow(control_data->sf_ref_altitude_AGL, (double)(POLY_DEG - i));
+        ref_velocity_placeholder += (control_data->poly_coeff[3][i] * x_placeholder);
+    }
 }
 
 void compute_antiwindup_boundaries(control_data_t *control_data) {
@@ -64,7 +81,7 @@ void save_evaluated_polyfits_to_file(control_data_t *control_data){
     fptr = fopen ("plotting/data/coeff_data.csv", "w+");
     for (int j = 0; j < lin_num+1; j++){
         control_data->sf_ref_altitude_AGL = delta_lin * j;
-        evaluate_lqr_gains_polyfit(control_data);
+        eval_gains_polyfit(control_data);
         fprintf(fptr, "%f,%f,%f,%f,%f\n", control_data->sf_ref_altitude_AGL,
                 control_data->ref_velocity, control_data->gains[0], control_data->gains[1], control_data->gains[2]);
     }
