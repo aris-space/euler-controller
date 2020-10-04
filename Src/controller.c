@@ -4,6 +4,12 @@
 
 #include "../Inc/controller.h"
 
+#if CONTROLLER_TYPE == 0
+    #include "../Src/test_controller.c" 
+#elif CONTROLLER_TYPE == 1
+    #include "../Src/lqr_controller.c"
+#endif
+
 void control_data_init(control_data_t *control_data){
     control_data_reset(control_data);
 
