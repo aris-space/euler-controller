@@ -8,6 +8,8 @@
     #include "../Src/test_controller.c" 
 #elif CONTROLLER_TYPE == 1
     #include "../Src/lqr_controller.c"
+#elif CONTROLLER_TYPE == 2
+    #include "../Src/mpc_controller.c"
 #endif
 
 void control_data_init(control_data_t *control_data){
@@ -21,11 +23,7 @@ void control_data_init(control_data_t *control_data){
     control_data->upperboundary_aw = 0;
 
     #if CONTROLLER_TYPE == 1
-        init_gains_coeff(control_data);
-
-        for(int i = 0; i < NUM_GAINS; i++){
-            control_data->gains[i] = 0;
-        }
+        init_gains(control_data);
     #endif
 }
 
