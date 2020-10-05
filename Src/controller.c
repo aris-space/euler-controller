@@ -61,13 +61,13 @@ void eval_optimal_trajectory_polyfit(control_data_t *control_data) {
     /* Reset ref_velocity_placeholder*/
     double ref_velocity_placeholder = 0;
 
-    control_data->ref_velocity = (float)ref_velocity_placeholder;
-
     /* For loop */
     for (int i = 0; i < POLY_DEG + 1; ++i) {
         x_placeholder = pow(control_data->sf_ref_altitude_AGL, (double)(POLY_DEG - i));
         ref_velocity_placeholder += (control_data->optimal_trajectory_coeff[i] * x_placeholder);
     }
+
+    control_data->ref_velocity = (float)ref_velocity_placeholder;
 }
 
 void compute_reference_error(control_data_t *control_data) {

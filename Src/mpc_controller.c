@@ -11,6 +11,9 @@ void init_params(control_data_t *control_data) {
 void compute_control_input(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, env_t *env){
     if (flight_phase_detection->flight_phase == CONTROL) {
 
+        /* Compute reference velocity */
+        eval_optimal_trajectory_polyfit(control_data);
+
         /* Calculate Velocity Error */
         compute_reference_error(control_data);
 

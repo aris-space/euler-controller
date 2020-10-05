@@ -12,7 +12,7 @@
 
 /* CONTROLLER_TYPE: 0=TEST_CONTROLLER, 1=LQR, 2=MPC */
 #define CONTROLLER_TYPE 2                                                                    
-#define CONTROLLER_SAMPLING_FREQ 100                                                            // Hz
+#define CONTROLLER_SAMPLING_FREQ 10                                                            // Hz
 #define POLY_DEG 30                                                                             // NEEDS CHANGE
 #define OPT_TRAJ_CONTROL_INPUT 0.495415061477727                                                    // -
 #define CONTROL_DEACTIVATION_ALTITUDE_AGL 1382.1581114217445                                     // NEEDS CHANGE
