@@ -8,7 +8,7 @@ void init_params(control_data_t *control_data) {
     memcpy(control_data->Q, Q, sizeof(Q));
 }
 
-void compute_control_input(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection){
+void compute_control_input(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, env_t *env){
     if (flight_phase_detection->flight_phase == CONTROL) {
 
         /* Calculate Velocity Error */
@@ -16,7 +16,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
 
         float Ad[2][2] = {0};
         float Bd[2] = {0};
-        plant_linearization(control_data, flight_phase_detection, Ad, Bd);
+        plant_linearization(control_data, flight_phase_detection, env, Ad, Bd);
 
         float x0[3] = {0, control_data->reference_error, control_data->integrated_error};
         float C[3][4] = {{0, 1, 0, 0}, {0, 0, Ad[0][0], Ad[0][1]}, {0, 0, Ad[1][0], Ad[1][1]}};
@@ -53,10 +53,11 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
     }
 }
 
-void plant_linearization(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, float Ad[2][2], float Bd[2]){
+void plant_linearization(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, env_t *env,
+                         float Ad[2][2], float Bd[2]){
     float A[2][2] = {0};
     float B[2] = {2};
-    linear_model(control_data, flight_phase_detection, A, B);
+    linear_model(control_data, flight_phase_detection, env, A, B);
     discretize(Ad, Bd, A, B);
 }
 

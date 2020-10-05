@@ -38,14 +38,20 @@ void control_data_reset(control_data_t *control_data){
     control_data->integrated_error = 0;
 }
 
-void control_step(control_data_t *control_data, state_est_data_t *state_est_data, flight_phase_detection_t *flight_phase_detection) {
+void control_step(control_data_t *control_data, state_est_data_t *state_est_data, 
+                  flight_phase_detection_t *flight_phase_detection, env_t *env) {
     /* Update the control data struct*/
     control_data->sf_velocity = ((float)state_est_data->velocity_rocket[0]) / 1000;
     control_data->sf_ref_altitude_AGL = ((float) state_est_data->position_world[2]) / 1000;
     control_data->tracking_feedback = ((float) state_est_data->airbrake_extension) / 1000000;
 
     eval_optimal_trajectory_polyfit(control_data);
-    compute_control_input(control_data, flight_phase_detection);
+
+    #if CONTROLLER_TYPE == 2
+        compute_control_input(control_data, flight_phase_detection, env);
+    #else
+        compute_control_input(control_data, flight_phase_detection);
+    #endif
 }
 
 void eval_optimal_trajectory_polyfit(control_data_t *control_data) {
