@@ -1,4 +1,5 @@
 #include "../Inc/mpc_controller.h"
+#include "plant_manipulator.c"
 
 void init_params(control_data_t *control_data) {
     const float Q[3][3] = {{1.e-02, 0.e+00, 0.e+00}, {0.e+00, 1.e+03, 0.e+00}, {0.e+00, 0.e+00, 1.e+01}};
