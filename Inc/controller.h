@@ -16,7 +16,7 @@
 #include "controller_const.h"
 
 /* function declaration */
-void control_data_init(control_data_t *control_data);
+void control_init(control_data_t *control_data);
 void control_data_reset(control_data_t *control_data);
 void control_step(control_data_t *control_data, state_est_data_t *state_est_data, flight_phase_detection_t *flight_phase_detection, env_t *env);
 void eval_optimal_trajectory_polyfit(control_data_t *control_data);

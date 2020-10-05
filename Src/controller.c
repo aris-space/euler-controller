@@ -12,7 +12,7 @@
     #include "../Src/mpc_controller.c"
 #endif
 
-void control_data_init(control_data_t *control_data){
+void control_init(control_data_t *control_data){
     control_data_reset(control_data);
 
     control_data->sf_velocity = 0;
