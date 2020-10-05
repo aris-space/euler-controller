@@ -59,7 +59,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
 
 void plant_linearization(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, env_t *env){
     linear_model(control_data, flight_phase_detection, env);
-    discretize(control_data->Ad, control_data->Bd, control_data->A, control_data->B);
+    discretize(control_data->A, control_data->B, control_data->Ad, control_data->Bd);
 }
 
 
