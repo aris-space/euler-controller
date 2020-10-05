@@ -65,6 +65,10 @@ typedef struct {
     #elif CONTROLLER_TYPE == 2
         float Q[3][3];
         float R;
+        float A[2][2];
+        float B[2];
+        float Ad[2][2];
+        float Bd[2];
         mpc_params_t mpc_params;
         mpc_output_t mpc_output;
         mpc_info_t mpc_info;

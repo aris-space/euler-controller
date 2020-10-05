@@ -14,13 +14,15 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         /* Calculate Velocity Error */
         compute_reference_error(control_data);
 
-        float Ad[2][2] = {0};
-        float Bd[2] = {0};
-        plant_linearization(control_data, flight_phase_detection, env, Ad, Bd);
+        plant_linearization(control_data, flight_phase_detection, env);
 
         float x0[3] = {0, control_data->reference_error, control_data->integrated_error};
-        float C[3][4] = {{0, 1, 0, 0}, {0, 0, Ad[0][0], Ad[0][1]}, {0, 0, Ad[1][0], Ad[1][1]}};
-        float D[3][4] = {{1, -1, 0, 0}, {0, Bd[0], -1, 0}, {0, Bd[1], 0, -1}};
+        float C[3][4] = {{0, 1, 0, 0}, 
+                         {0, 0, control_data->Ad[0][0], control_data->Ad[0][1]}, 
+                         {0, 0, control_data->Ad[1][0], control_data->Ad[1][1]}};
+        float D[3][4] = {{1, -1, 0, 0}, 
+                         {0, control_data->Bd[0], -1, 0}, 
+                         {0, control_data->Bd[1], 0, -1}};
         float cost_H_fin[4][4] = {{control_data->R, 0, 0, 0}, 
                                  {0, control_data->Q[0][0], control_data->Q[0][1], control_data->Q[0][2]}, 
                                  {0, control_data->Q[1][0], control_data->Q[1][1], control_data->Q[1][2]}, 
@@ -55,12 +57,9 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
     }
 }
 
-void plant_linearization(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, env_t *env,
-                         float Ad[2][2], float Bd[2]){
-    float A[2][2] = {0};
-    float B[2] = {2};
-    linear_model(control_data, flight_phase_detection, env, A, B);
-    discretize(Ad, Bd, A, B);
+void plant_linearization(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, env_t *env){
+    linear_model(control_data, flight_phase_detection, env);
+    discretize(control_data->Ad, control_data->Bd, control_data->A, control_data->B);
 }
 
 

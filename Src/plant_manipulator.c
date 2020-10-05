@@ -5,8 +5,7 @@
 #include "../Inc/plant_manipulator.h"
 
 
-void linear_model(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, env_t *env,
-                  float A[2][2], float B[2]){
+void linear_model(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, env_t *env){
     float C_A_rocket = 0.0f;
     float C_A_AB_steady_state = 0.0f;
     float C_A_AB_full_extension = 0.0f;
@@ -22,13 +21,13 @@ void linear_model(control_data_t *control_data, flight_phase_detection_t *flight
             (env->T_g - T_GRAD * control_data->sf_ref_altitude_AGL) / env->T_g), (-1 + GRAVITATION / (R_0 * T_GRAD)))) /
                     (2 * MASS_DRY));
 
-    A[0][0] = dadv;
-    A[0][1] = 0;
-    A[1][0] = 1;
-    A[1][1] = 0;
+    control_data->A[0][0] = dadv;
+    control_data->A[0][1] = 0;
+    control_data->A[1][0] = 1;
+    control_data->A[1][1] = 0;
 
-    B[0] = dadu;
-    B[1] = 0;
+    control_data->B[0] = dadu;
+    control_data->B[1] = 0;
 
 }
 
