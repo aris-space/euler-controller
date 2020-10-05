@@ -15,6 +15,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
 
         float Ad[2][2] = {0};
         float Bd[2] = {0};
+        plant_linearization(control_data, flight_phase_detection, Ad, Bd);
 
         float C[3][4] = {{0, 1, 0, 0}, {0, 0, Ad[0][0], Ad[0][1]}, {0, 0, Ad[1][0], Ad[1][1]}};
         float D[3][4] = {{1, -1, 0, 0}, {0, Bd[0], -1, 0}, {0, Bd[1], 0, -1}};
@@ -44,3 +45,9 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         }
     }
 }
+
+void plant_linearization(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, float Ad[2][2], float Bd[2]){
+    linear_model(control_data, flight_phase_detection, Ad, Bd);
+}
+
+
