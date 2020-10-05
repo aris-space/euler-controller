@@ -77,4 +77,4 @@ typedef struct {
 } control_data_t;
 
 
-#endif //C_IMPLEMENTATION_CONTROLLER_CONST_H
+#endif // CONTROLLER_CONST_H
