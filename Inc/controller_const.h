@@ -28,11 +28,19 @@
 #elif CONTROLLER_TYPE == 1
     #define NUM_GAINS 3 
 #elif CONTROLLER_TYPE == 2
-    #define SOLVER_NAME "MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle"
-    #define SOLVER_HEADER "../MPC_solvers/" SOLVER_NAME "/include/" SOLVER_NAME ".h"
-    // #include SOLVER_HEADER
-
-    #include "../MPC_solvers/MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle/include/MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle.h"
+    #ifdef EULER_AV
+        #define SOLVER_HEADER "../MPC_solvers/ARIS_Euler_MPC_embotech_single_integrator_20201002120922/include/ARIS_Euler_MPC_embotech_single_integrator_20201002120922.h"
+        typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201002120922_params mpc_params_t;
+        typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201002120922_output mpc_output_t;
+        typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201002120922_info mpc_info_t;
+    #else
+        #define SOLVER_HEADER "../MPC_solvers/MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle/include/MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle.h"
+        typedef struct MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_params mpc_params_t;
+        typedef struct MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_output mpc_output_t;
+        typedef struct MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_info mpc_info_t;
+    #endif
+    // typedef void (*mpc_solver)();
+    #include SOLVER_HEADER
 #endif
 
 /* Types */
@@ -57,9 +65,9 @@ typedef struct {
     #elif CONTROLLER_TYPE == 2
         float Q[3][3];
         float R;
-        MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_params mpc_params;
-        MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_output mpc_output;
-        MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_info mpc_info;
+        mpc_params_t mpc_params;
+        mpc_output_t mpc_output;
+        mpc_info_t mpc_info;
     #endif
 
 } control_data_t;

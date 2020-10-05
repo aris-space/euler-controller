@@ -1,8 +1,6 @@
 #include "../Inc/mpc_controller.h"
 #include "plant_manipulator.c"
 
-#include "../MPC_solvers/MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle/include/MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle.h"
-
 void init_params(control_data_t *control_data) {
     const float Q[3][3] = {{1.e-02, 0.e+00, 0.e+00}, {0.e+00, 1.e+03, 0.e+00}, {0.e+00, 0.e+00, 1.e+01}};
     control_data->R = 1000000;
