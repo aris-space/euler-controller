@@ -3,7 +3,7 @@
 //
 
 #include "../Inc/plant_manipulator.h"
-#include "../Inc/Util/util.h"
+
 
 void linear_model(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, float A[2][2], float B[2]){
     float C_A_rocket = 0.0f;
@@ -31,7 +31,11 @@ void linear_model(control_data_t *control_data, flight_phase_detection_t *flight
 
 }
 
-void discretize(float Ad[2][2], float Bd[][]){
+void discretize(float A[2][2], float B[2], float Ad[2][2], float Bd[2]){
+    // Tustin transform
+    float lambda = 0.1f; // todo: set this value
+    float A_inv[2][2] = {0};
+    bool check1 =  inverse(2, A, A_inv, lambda);
     
 }
 
