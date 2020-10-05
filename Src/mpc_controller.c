@@ -1,6 +1,8 @@
 #include "../Inc/mpc_controller.h"
 #include "plant_manipulator.c"
 
+#include "../MPC_solvers/MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle/include/MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle.h"
+
 void init_params(control_data_t *control_data) {
     const float Q[3][3] = {{1.e-02, 0.e+00, 0.e+00}, {0.e+00, 1.e+03, 0.e+00}, {0.e+00, 0.e+00, 1.e+01}};
     control_data->R = 1000000;
@@ -33,6 +35,8 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
 
         MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_solve(&control_data->mpc_params, &control_data->mpc_output, 
                                                                                     &control_data->mpc_info, NULL);
+
+        control_data->control_input = control_data->mpc_output.u0[0];
 
         /* Check that the control input is between 0 and 1 */
         control_data->control_input = fmaxf(0, fminf(control_data->control_input, 1));
