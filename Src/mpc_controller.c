@@ -36,8 +36,13 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         memcpy(&control_data->mpc_params.eq_D, &D, sizeof(D));
         memcpy(&control_data->mpc_params.cost_H_fin, &cost_H_fin, sizeof(cost_H_fin));
 
-        MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_solve(&control_data->mpc_params, &control_data->mpc_output, 
-                                                                                    &control_data->mpc_info, NULL);
+        #ifdef EULER_AV
+            ARIS_Euler_MPC_embotech_single_integrator_20201002120922_solve(&control_data->mpc_params, &control_data->mpc_output, 
+                                                                           &control_data->mpc_info, NULL);
+        #else
+            MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_solve(&control_data->mpc_params, &control_data->mpc_output, 
+                                                                                        &control_data->mpc_info, NULL);
+        #endif
 
         control_data->control_input = control_data->mpc_output.u0[0];
 
