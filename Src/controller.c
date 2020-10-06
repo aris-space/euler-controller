@@ -45,8 +45,6 @@ void control_step(control_data_t *control_data, state_est_data_t *state_est_data
     control_data->sf_ref_altitude_AGL = ((float) state_est_data->position_world[2]) / 1000;
     control_data->tracking_feedback = ((float) state_est_data->airbrake_extension) / 1000000;
 
-    eval_optimal_trajectory_polyfit(control_data);
-
     #if CONTROLLER_TYPE == 2
         compute_control_input(control_data, flight_phase_detection, env);
     #else

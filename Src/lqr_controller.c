@@ -16,7 +16,10 @@ void init_gains(control_data_t *control_data){
 }
 
 void compute_control_input(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection){
-    if (flight_phase_detection->flight_phase == CONTROL) {
+    if (flight_phase_detection->flight_phase == CONTROL ||flight_phase_detection->flight_phase == APOGEE_APPROACH 
+        || flight_phase_detection->flight_phase == BIAS_RESET) {
+        /* Compute reference velocity */
+        eval_optimal_trajectory_polyfit(control_data);
 
         /* calculate gains */
         eval_gains_polyfit(control_data);
@@ -24,29 +27,28 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         /* Calculate Velocity Error */
         compute_reference_error(control_data);
 
-        /* Calculate Control Input */
-        control_data->control_input = (float)(-control_data->gains[0] * control_data->reference_error
-                - control_data->gains[1] * control_data->integrated_error
-                - control_data->gains[2] * (control_data->control_input - OPT_TRAJ_CONTROL_INPUT)
-                + control_data->control_input);
+        if (flight_phase_detection->flight_phase == CONTROL) {
+            /* Calculate Control Input */
+            control_data->control_input = (float)(-control_data->gains[0] * control_data->reference_error
+                    - control_data->gains[1] * control_data->integrated_error
+                    - control_data->gains[2] * (control_data->control_input - OPT_TRAJ_CONTROL_INPUT)
+                    + control_data->control_input);
 
-        /* Check that the control input is between 0 and 1 */
-        control_data->control_input = fmaxf(0, fminf(control_data->control_input, 1));
+            /* Check that the control input is between 0 and 1 */
+            control_data->control_input = fmaxf(0, fminf(control_data->control_input, 1));
 
-        compute_integrated_error(control_data);
-    }
-    else if ((flight_phase_detection->flight_phase == BALLISTIC_DESCENT) && 
-            ((flight_phase_detection->mach_regime == SUBSONIC) || (flight_phase_detection->mach_regime == TRANSONIC))) {
+            compute_integrated_error(control_data);
+        } else {
+            control_data_reset(control_data);
+        }
+    } else if ((flight_phase_detection->flight_phase == BALLISTIC_DESCENT) && 
+              ((flight_phase_detection->mach_regime == SUBSONIC) || (flight_phase_detection->mach_regime == TRANSONIC))) {
         /* actuate airbrakes during ballistic descent to slow down rocket */
         control_data->control_input = 1;
     } else {
-        /* This part of the controller is accessed, if the controller should not be operational or if the rocket is the apogee approach phase*/
+        /* This part of the controller is accessed, if the controller should not be operational */
         /* Airbrakes need to be retracted to prevent entanglement with the parachutes */
         control_data_reset(control_data);
-        if (flight_phase_detection->flight_phase == APOGEE_APPROACH || flight_phase_detection->flight_phase == BIAS_RESET) {
-            eval_gains_polyfit(control_data);
-            compute_reference_error(control_data);
-        }
     }
 }
 
