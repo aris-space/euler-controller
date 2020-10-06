@@ -82,18 +82,13 @@ void get_C_A_AB(float airbrake_extension, flight_phase_detection_t *flight_phase
 
 void get_C_A_rocket(flight_phase_detection_t *flight_phase_detection, float *C_A_rocket){
     // Assumption made that the angle of attack is zero
-    // todo: the number of stored values can be reduced by a lot as the rocket will not fly faster than mach 2
-    const float C_A_values[] = {};
-    const float mach_dim[] ={};
+    const float C_A_values[15] = {0.42303f, 0.36187f, 0.38169f, 0.38098f, 0.37680f, 0.37233f, 0.36916f, 0.36629f, 0.36373f, 0.36148f, 0.35950f, 0.35776f, 0.35673f, 0.35781f, 0.35903f};
+    const float mach_dim[15] ={0.01000f, 0.06000f, 0.11000f, 0.16000f, 0.21000f, 0.26000f, 0.31000f, 0.36000f, 0.41000f, 0.46000f, 0.51000f, 0.56000f, 0.61000f, 0.66000f, 0.71000f};
 
-    *C_A_rocket = 0.4f;
-
-    /*
     for (int i = 0; i < (int)(sizeof(mach_dim)/sizeof(float)); i++ ){
         if (flight_phase_detection->mach_number > mach_dim[i]){
             *C_A_rocket = C_A_values[i];
             break;
         }
     }
-    */
 }
