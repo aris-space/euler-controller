@@ -7,7 +7,6 @@
 
 
 /* Constants */
-#include "controller.h"
 #include <math.h>
 
 /* CONTROLLER_TYPE: 0=TEST_CONTROLLER, 1=LQR, 2=MPC */
