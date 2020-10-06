@@ -91,20 +91,3 @@ void compute_integrated_error(control_data_t *control_data) {
     control_data->integrated_error = fmaxf(control_data->lowerboundary_aw, fminf(control_data->integrated_error
     + DELTA_T * control_data->reference_error, control_data->upperboundary_aw));
 }
-
-#if defined(EULER_SIMCON) && CONTROLLER_TYPE == 1
-void save_evaluated_polyfits_to_file(control_data_t *control_data){
-    int lin_num = 10000;
-    FILE *fptr;
-    float delta_lin = (float)TARGET_AGOGEE / (float)lin_num;
-    fptr = fopen ("plotting/data/coeff_data.csv", "w+");
-    for (int j = 0; j < lin_num+1; j++){
-        control_data->sf_ref_altitude_AGL = delta_lin * j;
-        eval_gains_polyfit(control_data);
-        fprintf(fptr, "%f,%f,%f,%f,%f\n", control_data->sf_ref_altitude_AGL,
-                control_data->ref_velocity, control_data->gains[0], control_data->gains[1], control_data->gains[2]);
-    }
-    fprintf(fptr,"\n");
-    fclose(fptr);
-}
-#endif
