@@ -32,7 +32,8 @@ void linear_model(control_data_t *control_data, flight_phase_detection_t *flight
 }
 
 void discretize(float A[2][2], float B[2], float Ad[2][2], float Bd[2]){
-    // Tustin transform
+    // Tustin transform might not work for our application
+    /*
     float lambda = 0.00001f; // todo: this value still needs to be hand-tuned
     float A_inv[2][2] = {0};
     float I[2][2] = {0};
@@ -52,6 +53,17 @@ void discretize(float A[2][2], float B[2], float Ad[2][2], float Bd[2]){
     matsub(2, 2, Ad, I, e_A_T_minus_I);
     matmul(2, 2, 2, A_inv, e_A_T_minus_I, A_inv_e_A_T_minus_I, true);
     matvecprod(2, 2, A_inv_e_A_T_minus_I, B, Bd, true);
+    */
+
+    /* Computation of Ad */
+    float eye_matrix[2][2] = {0};
+    float AT[2][2] = {0};
+    eye(2, eye_matrix);
+    scalarmatprod(2, 2, 1.0f/CONTROLLER_SAMPLING_FREQ, A, AT);
+    matadd(2, 2, eye_matrix, AT, Ad);
+
+    /* Computation of Bd */
+    scalarvecprod(2, 1.0f/CONTROLLER_SAMPLING_FREQ, B, Bd);
 }
 
 void get_C_A_AB(float airbrake_extension, flight_phase_detection_t *flight_phase_detection, float *C_A_AB){
