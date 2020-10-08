@@ -82,8 +82,8 @@ void get_C_A_AB(float airbrake_extension, flight_phase_detection_t *flight_phase
 
 void get_C_A_rocket(flight_phase_detection_t *flight_phase_detection, float *C_A_rocket){
     // Assumption made that the angle of attack is zero
-    const float C_A_values[15] = {0.42303f, 0.36187f, 0.38169f, 0.38098f, 0.37680f, 0.37233f, 0.36916f, 0.36629f, 0.36373f, 0.36148f, 0.35950f, 0.35776f, 0.35673f, 0.35781f, 0.35903f};
-    const float mach_dim[15] ={0.01000f, 0.06000f, 0.11000f, 0.16000f, 0.21000f, 0.26000f, 0.31000f, 0.36000f, 0.41000f, 0.46000f, 0.51000f, 0.56000f, 0.61000f, 0.66000f, 0.71000f};
+    const float C_A_values[22] = {0.48857f, 0.42097f, 0.44005f, 0.43896f, 0.43464f, 0.43025f, 0.42734f, 0.42490f, 0.42296f, 0.42152f, 0.42058f, 0.42015f, 0.42081f, 0.42406f, 0.42731f, 0.42758f, 0.42989f, 0.44003f, 0.45124f, 0.49946f, 0.54547f, 0.58037f};
+    const float mach_dim[22] = {0.01000f, 0.06000f, 0.11000f, 0.16000f, 0.21000f, 0.26000f, 0.31000f, 0.36000f, 0.41000f, 0.46000f, 0.51000f, 0.56000f, 0.61000f, 0.66000f, 0.71000f, 0.76000f, 0.81000f, 0.86000f, 0.91000f, 0.96000f, 1.01000f, 1.06000f};
 
     for (int i = 0; i < (int)(sizeof(mach_dim)/sizeof(float)); i++ ){
         if (flight_phase_detection->mach_number > mach_dim[i]){

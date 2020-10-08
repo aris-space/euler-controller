@@ -11,14 +11,14 @@
 
 /* CONTROLLER_TYPE: 0=TEST_CONTROLLER, 1=LQR, 2=MPC */
 #define CONTROLLER_TYPE 2                                                                    
-#define CONTROLLER_SAMPLING_FREQ 50                                                            // Hz
+#define CONTROLLER_SAMPLING_FREQ 100.00000f                                                           // Hz
 #define POLY_DEG 30                                                                             // NEEDS CHANGE
-#define OPT_TRAJ_CONTROL_INPUT 0.495415061477727                                                    // -
-#define CONTROL_DEACTIVATION_ALTITUDE_AGL 1382.1581114217445                                     // NEEDS CHANGE
+#define OPT_TRAJ_CONTROL_INPUT 0.5127076961f                                                    // -
+#define CONTROL_DEACTIVATION_ALTITUDE_AGL 3757.76201f                                     // NEEDS CHANGE
 #define MIN_BOUNDARAY_AW 0.5                                                                        // -                                                             // -
 #define M_AW 0.005                                                                              // -
 #define DELTA_T 1.0f / CONTROLLER_SAMPLING_FREQ                                                 // s
-#define TARGET_AGOGEE 1435.0                                                                    // m                                                   // m
+#define TARGET_AGOGEE 3800.00f                                                                   // m                                                   // m
 
 #if CONTROLLER_TYPE == 0
     #define TEST_CONTROLLER_USE_VELOCITY false                                                       // -
