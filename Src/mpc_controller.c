@@ -68,7 +68,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
 
             if (control_data->mpc_exitflag >= 0) {
                  /* Check that the control input is between 0 and 1 */
-                control_data->control_input = fmaxf(0, fminf(control_data->mpc_output.u0[0], 1));
+                control_data->control_input = fmaxf(0, fminf(OPT_TRAJ_CONTROL_INPUT + control_data->mpc_output.u0[0], 1));
             }
 
             compute_integrated_error(control_data);
