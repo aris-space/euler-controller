@@ -68,6 +68,7 @@ typedef struct {
         float B[2];
         float Ad[2][2];
         float Bd[2];
+        solver_int32_default mpc_exitflag;
         mpc_params_t mpc_params;
         mpc_output_t mpc_output;
         mpc_info_t mpc_info;

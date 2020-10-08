@@ -37,17 +37,30 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
             memcpy(&control_data->mpc_params.cost_H_fin, &cost_H_fin, sizeof(cost_H_fin));
 
             #ifdef EULER_AV
-                ARIS_Euler_MPC_embotech_single_integrator_20201002120922_solve(&control_data->mpc_params, &control_data->mpc_output, 
-                                                                            &control_data->mpc_info, NULL);
+                control_data->mpc_exitflag = ARIS_Euler_MPC_embotech_single_integrator_20201002120922_solve(&control_data->mpc_params, 
+                                                                                                            &control_data->mpc_output, 
+                                                                                                            &control_data->mpc_info, NULL);
             #else
-                MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_solve(&control_data->mpc_params, &control_data->mpc_output, 
-                                                                                            &control_data->mpc_info, NULL);
+                control_data->mpc_exitflag = MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_solve(&control_data->mpc_params, 
+                                                                                                                         &control_data->mpc_output, 
+                                                                                                                         &control_data->mpc_info, NULL);
             #endif
 
-            control_data->control_input = control_data->mpc_output.u0[0];
+            /* Exitflags:
+            1 - Optimal solution has been found (subject to desired accuracy)
+            2 - (only branch-and-bound) A feasible point has been identified for which the objective value is no more than codeoptions.mip.mipgap*100 per cent worse than the global optimum 
+            0 - Timeout - maximum number of iterations reached
+            -1 - (only branch-and-bound) Infeasible problem (problems solving the root relaxation to the desired accuracy)
+            -2 - (only branch-and-bound) Out of memory - cannot fit branch and bound nodes into pre-allocated memory.
+            -6 - NaN or INF occured during evaluation of functions and derivatives. Please check your initial guess.
+            -7 - Method could not progress. Problem may be infeasible. Run FORCESdiagnostics on your problem to check for most common errors in the formulation.
+            -10 - The convex solver could not proceed due to an internal error
+            -100 - License error */
 
-            /* Check that the control input is between 0 and 1 */
-            control_data->control_input = fmaxf(0, fminf(control_data->control_input, 1));
+            if (control_data->mpc_exitflag >= 0) {
+                 /* Check that the control input is between 0 and 1 */
+                control_data->control_input = fmaxf(0, fminf(control_data->mpc_output.u0[0], 1));
+            }
 
             compute_integrated_error(control_data);
         } else {
