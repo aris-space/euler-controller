@@ -31,10 +31,19 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
                                     {0, control_data->Q[1][0], control_data->Q[1][1], control_data->Q[1][2]}, 
                                     {0, control_data->Q[2][0], control_data->Q[2][1], control_data->Q[2][2]}};
 
-            memcpy(&control_data->mpc_params.eq_c, &x0, sizeof(x0));
-            memcpy(&control_data->mpc_params.eq_C, &C, sizeof(C));
-            memcpy(&control_data->mpc_params.eq_D, &D, sizeof(D));
-            memcpy(&control_data->mpc_params.cost_H_fin, &cost_H_fin, sizeof(cost_H_fin));
+            /* somehow traditional memcpy doesnt work */
+            for (int i = 0; i < 3; i++){
+                control_data->mpc_params.eq_c[i] = x0[i];
+                for (int j = 0; j < 4; j++){
+                    control_data->mpc_params.eq_C[i*3 + j] = C[i][j];
+                    control_data->mpc_params.eq_D[i*3 + j] = D[i][j];
+                }
+            }
+            for (int i = 0; i < 4; i++){
+                for (int j = 0; j < 4; j++){
+                    control_data->mpc_params.cost_H_fin[i*4 + j] = cost_H_fin[i][j];
+                }
+            }
 
             #ifdef EULER_AV
                 control_data->mpc_exitflag = ARIS_Euler_MPC_embotech_single_integrator_20201002120922_solve(&control_data->mpc_params, 
