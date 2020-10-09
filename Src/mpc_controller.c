@@ -26,6 +26,10 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
             float D[3][4] = {{1, -1, 0, 0}, 
                             {0, control_data->Bd[0], -1, 0}, 
                             {0, control_data->Bd[1], 0, -1}};
+            float cost_H[4][4] = {{control_data->R, 0, 0, 0}, 
+                                  {0, control_data->Q[0][0], control_data->Q[0][1], control_data->Q[0][2]}, 
+                                  {0, control_data->Q[1][0], control_data->Q[1][1], control_data->Q[1][2]}, 
+                                  {0, control_data->Q[2][0], control_data->Q[2][1], control_data->Q[2][2]}};
             float cost_H_fin[4][4] = {{control_data->R, 0, 0, 0}, 
                                     {0, control_data->Q[0][0], control_data->Q[0][1], control_data->Q[0][2]}, 
                                     {0, control_data->Q[1][0], control_data->Q[1][1], control_data->Q[1][2]}, 
@@ -41,6 +45,10 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
             }
             for (int i = 0; i < 4; i++){
                 for (int j = 0; j < 4; j++){
+                    #ifndef EULER_AV
+                        control_data->mpc_params.cost_H[i*4 + j] = cost_H[i][j];
+                    #endif
+
                     control_data->mpc_params.cost_H_fin[i*4 + j] = cost_H_fin[i][j];
                 }
             }
