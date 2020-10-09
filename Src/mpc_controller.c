@@ -63,9 +63,10 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
                                                                                                                 &control_data->mpc_info, NULL);
             #endif
 
-            /* we are setting the solver_timeout to the controller frequency */
+            /* we are setting the solver_timeout to double of the controller frequency 
+               we want to be conservative as we want to allow some time for our internal computations */
             #ifndef EULER_AV
-                control_data->mpc_params.solver_timeout = 1. / CONTROLLER_SAMPLING_FREQ;
+                control_data->mpc_params.solver_timeout = 1. / (2 *CONTROLLER_SAMPLING_FREQ);
             #endif
 
             /* Exitflags:
