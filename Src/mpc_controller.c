@@ -63,6 +63,11 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
                                                                                                                 &control_data->mpc_info, NULL);
             #endif
 
+            /* we are setting the solver_timeout to the controller frequency */
+            #ifndef EULER_AV
+                control_data->mpc_params.solver_timeout = 1. / CONTROLLER_SAMPLING_FREQ;
+            #endif
+
             /* Exitflags:
             1 - Optimal solution has been found (subject to desired accuracy)
             2 - (only branch-and-bound) A feasible point has been identified for which the objective value is no more than codeoptions.mip.mipgap*100 per cent worse than the global optimum 
