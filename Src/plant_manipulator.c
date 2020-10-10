@@ -51,7 +51,7 @@ void get_C_A_rocket(flight_phase_detection_t *flight_phase_detection, float *C_A
     const float mach_dim[22] = {0.01000f, 0.06000f, 0.11000f, 0.16000f, 0.21000f, 0.26000f, 0.31000f, 0.36000f, 0.41000f, 0.46000f, 0.51000f, 0.56000f, 0.61000f, 0.66000f, 0.71000f, 0.76000f, 0.81000f, 0.86000f, 0.91000f, 0.96000f, 1.01000f, 1.06000f};
 
     for (int i = 0; i < (int)(sizeof(mach_dim)/sizeof(float)); i++ ){
-        if (flight_phase_detection->mach_number > mach_dim[i]){
+        if (flight_phase_detection->mach_number <= mach_dim[i]){
             *C_A_rocket = C_A_values[i];
             break;
         }
