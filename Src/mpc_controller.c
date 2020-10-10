@@ -32,16 +32,19 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
                                     {0, control_data->Q[2][0], control_data->Q[2][1], control_data->Q[2][2]}};
 
             /* somehow traditional memcpy doesnt work */
-            for (int i = 0; i < 3; i++){
-                control_data->mpc_params.eq_c[i] = x0[i];
-                for (int j = 0; j < 4; j++){
-                    control_data->mpc_params.eq_C[i*3 + j] = C[i][j];
-                    control_data->mpc_params.eq_D[i*3 + j] = D[i][j];
+            /* ForcesPro expects major-column format for arrays and matrices */
+            for (int j = 0; j < 4; j++){
+                for (int i = 0; i < 3; i++){
+                    control_data->mpc_params.eq_C[j*4 + i] = C[i][j];
+                    control_data->mpc_params.eq_D[j*4 + i] = D[i][j];
                 }
             }
-            for (int i = 0; i < 4; i++){
-                for (int j = 0; j < 4; j++){
-                    control_data->mpc_params.cost_H_fin[i*4 + j] = cost_H_fin[i][j];
+            for (int i = 0; i < 3; i++){
+                control_data->mpc_params.eq_c[i] = x0[i];
+            }
+            for (int j = 0; j < 4; j++){
+                for (int i = 0; i < 4; i++){
+                    control_data->mpc_params.cost_H_fin[j*4 + i] = cost_H_fin[i][j];
                 }
             }
 
