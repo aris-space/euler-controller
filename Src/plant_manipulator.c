@@ -26,44 +26,9 @@ void linear_model(control_data_t *control_data, flight_phase_detection_t *flight
     control_data->A[1][0] = 1;
     control_data->A[1][1] = 0;
 
-    control_data->B[0] = dadu;
-    control_data->B[1] = 0;
+    control_data->B[0][0] = dadu;
+    control_data->B[1][0] = 0;
 
-}
-
-void discretize(float A[2][2], float B[2], float Ad[2][2], float Bd[2]){
-    // Tustin transform might not work for our application
-    /*
-    float lambda = 0.00001f; // todo: this value still needs to be hand-tuned
-    float A_inv[2][2] = {0};
-    float I[2][2] = {0};
-    float half_A_T[2][2] = {0};
-    float I_plus_half_A_T[2][2] = {0};
-    float I_minus_half_A_T[2][2] = {0};
-    float I_minus_half_A_T_inv[2][2] = {0};
-    float e_A_T_minus_I[2][2] = {0};
-    float A_inv_e_A_T_minus_I[2][2] = {0};
-    const bool check1 = inverse(2, A, A_inv, lambda); // todo: should we implement something, when one of the checks gets false
-    eye(2, I);
-    scalarmatprod(2, 2, 0.5f*1.0f/CONTROLLER_SAMPLING_FREQ, A, half_A_T);
-    matadd(2, 2, I , half_A_T, I_plus_half_A_T);
-    matsub(2, 2, I, half_A_T, I_minus_half_A_T);
-    const bool check2 = inverse(2, I_minus_half_A_T, I_minus_half_A_T_inv, lambda);
-    matmul(2, 2, 2, I_plus_half_A_T, I_minus_half_A_T_inv, Ad, true);
-    matsub(2, 2, Ad, I, e_A_T_minus_I);
-    matmul(2, 2, 2, A_inv, e_A_T_minus_I, A_inv_e_A_T_minus_I, true);
-    matvecprod(2, 2, A_inv_e_A_T_minus_I, B, Bd, true);
-    */
-
-    /* Computation of Ad */
-    float eye_matrix[2][2] = {0};
-    float AT[2][2] = {0};
-    eye(2, eye_matrix);
-    scalarmatprod(2, 2, 1.0f/CONTROLLER_SAMPLING_FREQ, A, AT);
-    matadd(2, 2, eye_matrix, AT, Ad);
-
-    /* Computation of Bd */
-    scalarvecprod(2, 1.0f/CONTROLLER_SAMPLING_FREQ, B, Bd);
 }
 
 void get_C_A_AB(float airbrake_extension, flight_phase_detection_t *flight_phase_detection, float *C_A_AB){

@@ -24,8 +24,8 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
                             {0, 0, control_data->Ad[0][0], control_data->Ad[0][1]}, 
                             {0, 0, control_data->Ad[1][0], control_data->Ad[1][1]}};
             float D[3][4] = {{1, -1, 0, 0}, 
-                            {0, control_data->Bd[0], -1, 0}, 
-                            {0, control_data->Bd[1], 0, -1}};
+                            {0, control_data->Bd[0][0], -1, 0}, 
+                            {0, control_data->Bd[1][0], 0, -1}};
             float cost_H[4][4] = {{control_data->R, 0, 0, 0}, 
                                   {0, control_data->Q[0][0], control_data->Q[0][1], control_data->Q[0][2]}, 
                                   {0, control_data->Q[1][0], control_data->Q[1][1], control_data->Q[1][2]}, 
@@ -105,7 +105,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
 
 void plant_linearization(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, env_t *env){
     linear_model(control_data, flight_phase_detection, env);
-    discretize(control_data->A, control_data->B, control_data->Ad, control_data->Bd);
+    discretize(CONTROLLER_SAMPLING_FREQ, 2, 1, control_data->A, control_data->B, control_data->Ad, control_data->Bd);
 }
 
 
