@@ -33,14 +33,14 @@ void linear_model(control_data_t *control_data, flight_phase_detection_t *flight
 
 void get_C_A_AB(float airbrake_extension, flight_phase_detection_t *flight_phase_detection, float *C_A_AB){
     // linearization is done using CFD values
-    float v_values[2] = {100, 240};
+    float v_values[2] = {100.0f, 240.0f};
     float C_A_values[2] = {1.7f, 1.89f};
     float speed_of_sound = 310.0f;
     float mach_values[2] = {v_values[0] / speed_of_sound, v_values[1] / speed_of_sound};
     float C_A_AB_full = 0.0f;
     interpolate(C_A_values, mach_values, flight_phase_detection->mach_number, &C_A_AB_full);
     float actual_C_A_AB_range[2] = {0.0f, C_A_AB_full};
-    float airbrake_range[2] = {0, 1};
+    float airbrake_range[2] = {0.0f, 1.0f};
     interpolate(actual_C_A_AB_range, airbrake_range, airbrake_extension, C_A_AB);
 }
 
@@ -51,7 +51,7 @@ void get_C_A_rocket(flight_phase_detection_t *flight_phase_detection, float *C_A
     const float mach_dim[22] = {0.01000f, 0.06000f, 0.11000f, 0.16000f, 0.21000f, 0.26000f, 0.31000f, 0.36000f, 0.41000f, 0.46000f, 0.51000f, 0.56000f, 0.61000f, 0.66000f, 0.71000f, 0.76000f, 0.81000f, 0.86000f, 0.91000f, 0.96000f, 1.01000f, 1.06000f};
 
     for (int i = 0; i < (int)(sizeof(mach_dim)/sizeof(float)); i++ ){
-        if (flight_phase_detection->mach_number > mach_dim[i]){
+        if (flight_phase_detection->mach_number <= mach_dim[i]){
             *C_A_rocket = C_A_values[i];
             break;
         }
