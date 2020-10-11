@@ -1,8 +1,8 @@
 #include "../Inc/mpc_controller.h"
 
 void init_params(control_data_t *control_data) {
-    const float Q[3][3] = {{1.e-02, 0.e+00, 0.e+00}, {0.e+00, 1.e+03, 0.e+00}, {0.e+00, 0.e+00, 1.e+01}};
-    control_data->R = 1000000;
+    const float Q[3][3] = {{0.01000f, 0.00000f, 0.00000f}, {0.00000f, 1000.00000f, 0.00000f}, {0.00000f, 0.00000f, 10.00000f}};
+    control_data->R = 1000000.00000f;
 
     memcpy(control_data->Q, Q, sizeof(Q));
 }
@@ -24,8 +24,12 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
                             {0, 0, control_data->Ad[0][0], control_data->Ad[0][1]}, 
                             {0, 0, control_data->Ad[1][0], control_data->Ad[1][1]}};
             float D[3][4] = {{1, -1, 0, 0}, 
-                            {0, control_data->Bd[0], -1, 0}, 
-                            {0, control_data->Bd[1], 0, -1}};
+                            {0, control_data->Bd[0][0], -1, 0}, 
+                            {0, control_data->Bd[1][0], 0, -1}};
+            float cost_H[4][4] = {{control_data->R, 0, 0, 0}, 
+                                  {0, control_data->Q[0][0], control_data->Q[0][1], control_data->Q[0][2]}, 
+                                  {0, control_data->Q[1][0], control_data->Q[1][1], control_data->Q[1][2]}, 
+                                  {0, control_data->Q[2][0], control_data->Q[2][1], control_data->Q[2][2]}};
             float cost_H_fin[4][4] = {{control_data->R, 0, 0, 0}, 
                                     {0, control_data->Q[0][0], control_data->Q[0][1], control_data->Q[0][2]}, 
                                     {0, control_data->Q[1][0], control_data->Q[1][1], control_data->Q[1][2]}, 
@@ -35,8 +39,8 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
             /* ForcesPro expects major-column format for arrays and matrices */
             for (int j = 0; j < 4; j++){
                 for (int i = 0; i < 3; i++){
-                    control_data->mpc_params.eq_C[j*4 + i] = C[i][j];
-                    control_data->mpc_params.eq_D[j*4 + i] = D[i][j];
+                    control_data->mpc_params.eq_C[j*3 + i] = C[i][j];
+                    control_data->mpc_params.eq_D[j*3 + i] = D[i][j];
                 }
             }
             for (int i = 0; i < 3; i++){
@@ -44,6 +48,10 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
             }
             for (int j = 0; j < 4; j++){
                 for (int i = 0; i < 4; i++){
+                    #ifndef EULER_AV
+                        control_data->mpc_params.cost_H[j*4 + i] = cost_H[i][j];
+                    #endif
+
                     control_data->mpc_params.cost_H_fin[j*4 + i] = cost_H_fin[i][j];
                 }
             }
@@ -53,9 +61,15 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
                                                                                                             &control_data->mpc_output, 
                                                                                                             &control_data->mpc_info, NULL);
             #else
-                control_data->mpc_exitflag = MPC_embotech_single_integrator_test_20201004181950_maximilianstoelzle_solve(&control_data->mpc_params, 
-                                                                                                                         &control_data->mpc_output, 
-                                                                                                                         &control_data->mpc_info, NULL);
+                control_data->mpc_exitflag = MPC_embotech_single_integrator_test_20201008205150_tunkapgen_solve(&control_data->mpc_params, 
+                                                                                                                &control_data->mpc_output, 
+                                                                                                                &control_data->mpc_info, NULL);
+            #endif
+
+            /* we are setting the solver_timeout to double of the controller frequency 
+               we want to be conservative as we want to allow some time for our internal computations */
+            #ifndef EULER_AV
+                control_data->mpc_params.solver_timeout = 1. / (2 *CONTROLLER_SAMPLING_FREQ);
             #endif
 
             /* Exitflags:
@@ -91,7 +105,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
 
 void plant_linearization(control_data_t *control_data, flight_phase_detection_t *flight_phase_detection, env_t *env){
     linear_model(control_data, flight_phase_detection, env);
-    discretize(control_data->A, control_data->B, control_data->Ad, control_data->Bd);
+    discretize(CONTROLLER_SAMPLING_FREQ, 2, 1, control_data->A, control_data->B, control_data->Ad, control_data->Bd);
 }
 
 

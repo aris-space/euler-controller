@@ -7,8 +7,8 @@
 
 #include <math.h>
 
-#define ROCKET_DIAMETER 0.176f
+#define ROCKET_DIAMETER 0.17900f
 #define A_REF powf((ROCKET_DIAMETER / 2), 2) * M_PI
-#define MASS_DRY 30 //rocket dry mass (without fuel in engine) [kg]
+#define MASS_DRY 38.37000f //rocket dry mass (without fuel in engine) [kg]
 
 #endif //PLANT_MANIPULATOR_CONST_H
