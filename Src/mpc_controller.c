@@ -39,8 +39,8 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
             /* ForcesPro expects major-column format for arrays and matrices */
             for (int j = 0; j < 4; j++){
                 for (int i = 0; i < 3; i++){
-                    control_data->mpc_params.eq_C[j*4 + i] = C[i][j];
-                    control_data->mpc_params.eq_D[j*4 + i] = D[i][j];
+                    control_data->mpc_params.eq_C[j*3 + i] = C[i][j];
+                    control_data->mpc_params.eq_D[j*3 + i] = D[i][j];
                 }
             }
             for (int i = 0; i < 3; i++){
