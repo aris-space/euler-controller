@@ -11,14 +11,14 @@
 
 /* CONTROLLER_TYPE: 0=TEST_CONTROLLER, 1=LQR, 2=MPC */
 #define CONTROLLER_TYPE 2                                                                    
-#define CONTROLLER_SAMPLING_FREQ 50.00000f                                                           // Hz
+#define CONTROLLER_SAMPLING_FREQ 25.00000f                                                           // Hz
 #define POLY_DEG 30                                                                             // NEEDS CHANGE
-#define OPT_TRAJ_CONTROL_INPUT 0.5127076961f                                                    // -
-#define CONTROL_DEACTIVATION_ALTITUDE_AGL 3757.76201f                                     // NEEDS CHANGE
+#define OPT_TRAJ_CONTROL_INPUT 0.4941559211f                                                    // -
+#define CONTROL_DEACTIVATION_ALTITUDE_AGL 3551.36461f                                     // NEEDS CHANGE
 #define MIN_BOUNDARAY_AW 0.5                                                                        // -                                                             // -
 #define M_AW 0.005                                                                              // -
 #define DELTA_T 1.0f / CONTROLLER_SAMPLING_FREQ                                                 // s
-#define TARGET_AGOGEE 3800.00f                                                                   // m                                                   // m
+#define TARGET_AGOGEE 3600.00f                                                                   // m                                                   // m
 
 #if CONTROLLER_TYPE == 0
     #define TEST_CONTROLLER_USE_VELOCITY false                                                       // -
@@ -33,10 +33,10 @@
         typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201002120922_output mpc_output_t;
         typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201002120922_info mpc_info_t;
     #else
-        #define SOLVER_HEADER "../MPC_solvers/MPC_embotech_single_integrator_test_20201008205150_tunkapgen/include/MPC_embotech_single_integrator_test_20201008205150_tunkapgen.h"
-        typedef struct MPC_embotech_single_integrator_test_20201008205150_tunkapgen_params mpc_params_t;
-        typedef struct MPC_embotech_single_integrator_test_20201008205150_tunkapgen_output mpc_output_t;
-        typedef struct MPC_embotech_single_integrator_test_20201008205150_tunkapgen_info mpc_info_t;
+        #define SOLVER_HEADER "../MPC_solvers/MPC_embotech_single_integrator_test_20201014203740_tunkapgen/include/MPC_embotech_single_integrator_test_20201014203740_tunkapgen.h"
+        typedef struct MPC_embotech_single_integrator_test_20201014203740_tunkapgen_params mpc_params_t;
+        typedef struct MPC_embotech_single_integrator_test_20201014203740_tunkapgen_output mpc_output_t;
+        typedef struct MPC_embotech_single_integrator_test_20201014203740_tunkapgen_info mpc_info_t;
     #endif
     // typedef void (*mpc_solver)();
     #include SOLVER_HEADER

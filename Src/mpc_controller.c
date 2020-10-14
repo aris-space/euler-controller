@@ -1,8 +1,8 @@
 #include "../Inc/mpc_controller.h"
 
 void init_params(control_data_t *control_data) {
-    const float Q[3][3] = {{0.01000f, 0.00000f, 0.00000f}, {0.00000f, 1000.00000f, 0.00000f}, {0.00000f, 0.00000f, 10.00000f}};
-    control_data->R = 1000000.00000f;
+    const float Q[3][3] = {{0.01000f, 0.00000f, 0.00000f}, {0.00000f, 1.00000f, 0.00000f}, {0.00000f, 0.00000f, 0.10000f}};
+    control_data->R = 10000.00000f;
 
     memcpy(control_data->Q, Q, sizeof(Q));
 }
@@ -62,7 +62,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
                                                                                                             &control_data->mpc_output, 
                                                                                                             &control_data->mpc_info, NULL);
             #else
-                control_data->mpc_exitflag = MPC_embotech_single_integrator_test_20201008205150_tunkapgen_solve(&control_data->mpc_params, 
+                control_data->mpc_exitflag = MPC_embotech_single_integrator_test_20201014203740_tunkapgen_solve(&control_data->mpc_params,
                                                                                                                 &control_data->mpc_output, 
                                                                                                                 &control_data->mpc_info, NULL);
             #endif
