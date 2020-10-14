@@ -19,7 +19,8 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         if (flight_phase_detection->flight_phase == CONTROL) {
             plant_linearization(control_data, flight_phase_detection, env);
 
-            float x0[3] = {0, control_data->reference_error, control_data->integrated_error};
+            float x0[3] = {control_data->control_input - OPT_TRAJ_CONTROL_INPUT, control_data->reference_error,
+                           control_data->integrated_error};
             float C[3][4] = {{0, 1, 0, 0}, 
                             {0, 0, control_data->Ad[0][0], control_data->Ad[0][1]}, 
                             {0, 0, control_data->Ad[1][0], control_data->Ad[1][1]}};
