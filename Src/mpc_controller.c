@@ -58,7 +58,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
             }
 
             #ifdef EULER_AV
-                control_data->mpc_exitflag = ARIS_Euler_MPC_embotech_single_integrator_20201002120922_solve(&control_data->mpc_params, 
+                control_data->mpc_exitflag = ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622_solve(&control_data->mpc_params,
                                                                                                             &control_data->mpc_output, 
                                                                                                             &control_data->mpc_info, NULL);
             #else

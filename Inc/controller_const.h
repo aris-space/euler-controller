@@ -11,7 +11,7 @@
 
 /* CONTROLLER_TYPE: 0=TEST_CONTROLLER, 1=LQR, 2=MPC */
 #define CONTROLLER_TYPE 2                                                                    
-#define CONTROLLER_SAMPLING_FREQ 25.00000f                                                           // Hz
+#define CONTROLLER_SAMPLING_FREQ 15.00000f                                                           // Hz
 #define POLY_DEG 30                                                                             // NEEDS CHANGE
 #define OPT_TRAJ_CONTROL_INPUT 0.4941559211f                                                    // -
 #define CONTROL_DEACTIVATION_ALTITUDE_AGL 3551.36461f                                     // NEEDS CHANGE
@@ -28,10 +28,10 @@
     #define NUM_GAINS 3 
 #elif CONTROLLER_TYPE == 2
     #ifdef EULER_AV
-        #define SOLVER_HEADER "../MPC_solvers/ARIS_Euler_MPC_embotech_single_integrator_20201002120922/include/ARIS_Euler_MPC_embotech_single_integrator_20201002120922.h"
-        typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201002120922_params mpc_params_t;
-        typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201002120922_output mpc_output_t;
-        typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201002120922_info mpc_info_t;
+        #define SOLVER_HEADER "../MPC_solvers/ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622/include/ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622.h"
+        typedef struct ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622_params mpc_params_t;
+        typedef struct ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622_output mpc_output_t;
+        typedef struct ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622_info mpc_info_t;
     #else
         #define SOLVER_HEADER "../MPC_solvers/MPC_embotech_single_integrator_test_20201014203740_tunkapgen/include/MPC_embotech_single_integrator_test_20201014203740_tunkapgen.h"
         typedef struct MPC_embotech_single_integrator_test_20201014203740_tunkapgen_params mpc_params_t;
