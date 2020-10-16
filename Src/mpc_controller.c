@@ -49,18 +49,21 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
             }
             for (int j = 0; j < 4; j++){
                 for (int i = 0; i < 4; i++){
-                    #ifndef EULER_AV
-                        control_data->mpc_params.cost_H[j*4 + i] = cost_H[i][j];
-                    #endif
-
+                    control_data->mpc_params.cost_H[j*4 + i] = cost_H[i][j];
                     control_data->mpc_params.cost_H_fin[j*4 + i] = cost_H_fin[i][j];
                 }
             }
 
             #ifdef EULER_AV
-                control_data->mpc_exitflag = ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622_solve(&control_data->mpc_params,
-                                                                                                            &control_data->mpc_output, 
-                                                                                                            &control_data->mpc_info, NULL);
+                #if HORIZON == 5
+                    control_data->mpc_exitflag = ARIS_Euler_MPC_embotech_single_integrator_hor5_20201016001622_solve(&control_data->mpc_params,
+                                                                                                                     &control_data->mpc_output, 
+                                                                                                                     &control_data->mpc_info, NULL);
+                #else 
+                    control_data->mpc_exitflag = ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622_solve(&control_data->mpc_params,
+                                                                                                                &control_data->mpc_output, 
+                                                                                                                &control_data->mpc_info, NULL);
+                #endif
             #else
                 control_data->mpc_exitflag = MPC_embotech_single_integrator_test_20201014203740_tunkapgen_solve(&control_data->mpc_params,
                                                                                                                 &control_data->mpc_output, 
@@ -69,9 +72,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
 
             /* we are setting the solver_timeout to double of the controller frequency 
                we want to be conservative as we want to allow some time for our internal computations */
-            #ifndef EULER_AV
-                control_data->mpc_params.solver_timeout = 1. / (2 *CONTROLLER_SAMPLING_FREQ);
-            #endif
+            control_data->mpc_params.solver_timeout = 1. / (3 *CONTROLLER_SAMPLING_FREQ);
 
             /* Exitflags:
             1 - Optimal solution has been found (subject to desired accuracy)
