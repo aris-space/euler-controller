@@ -1,5 +1,5 @@
 /*
-MPC_embotech_single_integrator_test_20201014203740_tunkapgen : A fast customized optimization solver.
+MPC_embotech_single_integrator_test_20201017124559_tunkapgen : A fast customized optimization solver.
 
 Copyright (C) 2013-2020 EMBOTECH AG [info@embotech.com]. All rights reserved.
 
@@ -24,7 +24,7 @@ jurisdiction in case of any dispute.
 
 #include "mex.h"
 #include "math.h"
-#include "../include/MPC_embotech_single_integrator_test_20201014203740_tunkapgen.h"
+#include "../include/MPC_embotech_single_integrator_test_20201017124559_tunkapgen.h"
 #ifndef SOLVER_STDIO_H
 #define SOLVER_STDIO_H
 #include <stdio.h>
@@ -55,7 +55,7 @@ void copyMValueToC_double(double * src, double * dest)
 }
 
 /* copy functions */
-void copyCArrayToM_MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float(MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float *src, double *dest, solver_int32_default dim) 
+void copyCArrayToM_MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float(MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float *src, double *dest, solver_int32_default dim) 
 {
     solver_int32_default i;
     for( i = 0; i < dim; i++ ) 
@@ -63,17 +63,17 @@ void copyCArrayToM_MPC_embotech_single_integrator_test_20201014203740_tunkapgen_
         *dest++ = (double)*src++;
     }
 }
-void copyMArrayToC_MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float(double *src, MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float *dest, solver_int32_default dim) 
+void copyMArrayToC_MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float(double *src, MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float *dest, solver_int32_default dim) 
 {
     solver_int32_default i;
     for( i = 0; i < dim; i++ ) 
     {
-        *dest++ = (MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float) (*src++) ;
+        *dest++ = (MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float) (*src++) ;
     }
 }
-void copyMValueToC_MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float(double * src, MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float * dest)
+void copyMValueToC_MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float(double * src, MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float * dest)
 {
-	*dest = (MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float) *src;
+	*dest = (MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float) *src;
 }
 
 
@@ -81,9 +81,9 @@ void copyMValueToC_MPC_embotech_single_integrator_test_20201014203740_tunkapgen_
 
 
 /* Some memory for mex-function */
-static MPC_embotech_single_integrator_test_20201014203740_tunkapgen_params params;
-static MPC_embotech_single_integrator_test_20201014203740_tunkapgen_output output;
-static MPC_embotech_single_integrator_test_20201014203740_tunkapgen_info info;
+static MPC_embotech_single_integrator_test_20201017124559_tunkapgen_params params;
+static MPC_embotech_single_integrator_test_20201017124559_tunkapgen_output output;
+static MPC_embotech_single_integrator_test_20201017124559_tunkapgen_info info;
 
 /* THE mex-function */
 void mexFunction( solver_int32_default nlhs, mxArray *plhs[], solver_int32_default nrhs, const mxArray *prhs[] )  
@@ -105,11 +105,11 @@ void mexFunction( solver_int32_default nlhs, mxArray *plhs[], solver_int32_defau
 	/* Check for proper number of arguments */
     if (nrhs != 1) 
 	{
-        mexErrMsgTxt("This function requires exactly 1 input: PARAMS struct.\nType 'help MPC_embotech_single_integrator_test_20201014203740_tunkapgen_mex' for details.");
+        mexErrMsgTxt("This function requires exactly 1 input: PARAMS struct.\nType 'help MPC_embotech_single_integrator_test_20201017124559_tunkapgen_mex' for details.");
     }    
 	if (nlhs > 3) 
 	{
-        mexErrMsgTxt("This function returns at most 3 outputs.\nType 'help MPC_embotech_single_integrator_test_20201014203740_tunkapgen_mex' for details.");
+        mexErrMsgTxt("This function returns at most 3 outputs.\nType 'help MPC_embotech_single_integrator_test_20201017124559_tunkapgen_mex' for details.");
     }
 
 	/* Check whether params is actually a structure */
@@ -222,7 +222,7 @@ void mexFunction( solver_int32_default nlhs, mxArray *plhs[], solver_int32_defau
 	par = mxGetField(PARAMS, 0, "solver_timeout");
 	if ( (par != NULL) && (mxGetN(par) != 0) && (mxGetM(par) != 0) )
 	{
-		copyMValueToC_MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float(mxGetPr(par), &params.solver_timeout);
+		copyMValueToC_MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float(mxGetPr(par), &params.solver_timeout);
 
 	}
 
@@ -230,14 +230,14 @@ void mexFunction( solver_int32_default nlhs, mxArray *plhs[], solver_int32_defau
 	par = mxGetField(PARAMS, 0, "timeout_estimate_coeff");
 	if ( (par != NULL) && (mxGetN(par) != 0) && (mxGetM(par) != 0) )
 	{
-		copyMValueToC_MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float(mxGetPr(par), &params.timeout_estimate_coeff);
+		copyMValueToC_MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float(mxGetPr(par), &params.timeout_estimate_coeff);
 
 	}
 
 
 
 
-	#if SET_PRINTLEVEL_MPC_embotech_single_integrator_test_20201014203740_tunkapgen > 0
+	#if SET_PRINTLEVEL_MPC_embotech_single_integrator_test_20201017124559_tunkapgen > 0
 		/* Prepare file for printfs */
         fp = fopen("stdout_temp","w+");
 		if( fp == NULL ) 
@@ -248,9 +248,9 @@ void mexFunction( solver_int32_default nlhs, mxArray *plhs[], solver_int32_defau
 	#endif
 
 	/* call solver */
-	exitflag = MPC_embotech_single_integrator_test_20201014203740_tunkapgen_solve(&params, &output, &info, fp);
+	exitflag = MPC_embotech_single_integrator_test_20201017124559_tunkapgen_solve(&params, &output, &info, fp);
 	
-	#if SET_PRINTLEVEL_MPC_embotech_single_integrator_test_20201014203740_tunkapgen > 0
+	#if SET_PRINTLEVEL_MPC_embotech_single_integrator_test_20201017124559_tunkapgen > 0
 		/* Read contents of printfs printed to file */
 		rewind(fp);
 		while( (i = fgetc(fp)) != EOF ) 

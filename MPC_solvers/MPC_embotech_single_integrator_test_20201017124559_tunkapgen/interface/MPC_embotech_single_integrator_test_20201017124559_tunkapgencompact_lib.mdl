@@ -1,5 +1,5 @@
 Model {
-  Name			  "MPC_embotech_single_integrator_test_20201014203740_tunkapgen"
+  Name			  "MPC_embotech_single_integrator_test_20201017124559_tunkapgen"
   Version		  8.0
   MdlSubVersion		  0
   GraphicalInterface {
@@ -60,13 +60,13 @@ Model {
       }
     }
   }
-  Created		  "10/14/2020 8:37:42 PM"
+  Created		  "10/17/2020 12:46:01 PM"
   Creator		  "embotech AG"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "embotech AG"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "10/14/2020 8:37:42 PM"
+  LastModifiedDate	  "10/17/2020 12:46:01 PM"
   RTWModifiedTimeStamp	  315310195
   ModelVersionFormat	  "1.%<AutoIncrement:2>"
   ConfigurationManager	  "None"
@@ -747,7 +747,7 @@ Model {
     }
   }
   System {
-    Name		    "MPC_embotech_single_integrator_test_20201014203740_tunkapgen"
+    Name		    "MPC_embotech_single_integrator_test_20201017124559_tunkapgen"
     Location		    [385, 84, 1201, 623]
     Open		    on
     ModelBrowserVisibility  on
@@ -765,21 +765,21 @@ Model {
     SIDHighWatermark	    "1"
     Block {
       BlockType		      S-Function
-      Name		      "MPC_embotech_single_integrator_test_20201014203740_tunkapgen"
+      Name		      "MPC_embotech_single_integrator_test_20201017124559_tunkapgen"
       SID		      "1"
-      Ports		      [7, 1]
+      Ports		      [6, 1]
       Position		      [170, 99, 650, 180]
       ZOrder		      1
-      FunctionName	      "MPC_embotech_single_integrator_test_20201014203740_tunkapgen_simulinkBlock"
-	  SFunctionModules	      "MPC_embotech_single_integrator_test_20201014203740_tunkapgen MPC_embotech_single_integrator_test_20201014203740_tunkapgen_simulinkBlock"
+      FunctionName	      "MPC_embotech_single_integrator_test_20201017124559_tunkapgen_simulinkBlockcompact"
+	  SFunctionModules	      "MPC_embotech_single_integrator_test_20201017124559_tunkapgen MPC_embotech_single_integrator_test_20201017124559_tunkapgen_simulinkBlockcompact"
       EnableBusSupport	      off
       Object {
 	$PropName		"MaskObject"
 	$ObjectID		19
 	$ClassName		"Simulink.Mask"
-	Type			"MPC_embotech_single_integrator_test_20201014203740_tunkapgen_simulinkBlock"
-	Description		" ---- Simulink block encapsulating your customized solver MPC_embotech_single_integrator_test_20201014203740_tunkapgen ---- \n\n"
-				"MPC_embotech_single_integrator_test_20201014203740_tunkapgen : A fast customized optimization solver.\n"
+	Type			"MPC_embotech_single_integrator_test_20201017124559_tunkapgen_simulinkBlockcompact"
+	Description		" ---- Simulink block encapsulating your customized solver MPC_embotech_single_integrator_test_20201017124559_tunkapgen ---- \n\n"
+				"MPC_embotech_single_integrator_test_20201017124559_tunkapgen : A fast customized optimization solver.\n"
 "\n"
 "Copyright (C) 2013-2020 EMBOTECH AG [info@embotech.com]. All rights reserved.\n"
 "\n"
@@ -801,31 +801,29 @@ Model {
 "jurisdiction in case of any dispute.\n"
 "\n"
 
-	Help			"MPC_embotech_single_integrator_test_20201014203740_tunkapgen_simulinkBlock provides an easy Simulink interface for simulating your customized solver.  \n"
-	"\nOUTPUTS = MPC_embotech_single_integrator_test_20201014203740_tunkapgen(INPUTS) solves an optimization problem where:\n\n"
+	Help			"MPC_embotech_single_integrator_test_20201017124559_tunkapgen_simulinkBlockcompact provides an easy Simulink interface for simulating your customized solver.  \n"
+	"\nOUTPUTS = MPC_embotech_single_integrator_test_20201017124559_tunkapgen(INPUTS) solves an optimization problem where:\n\n"
 	"INPUTS:\n"
-	" - eq_C - matrix of size 3x4\n "
-" - eq_D - matrix of size 3x4\n "
-" - eq_c - column vector of length 3\n "
-" - cost_H_fin - matrix of size 4x4\n "
-" - cost_H - matrix of size 4x4\n "
+	" - H - matrix of size 4x8\n "
 " - solver_timeout - column vector of length 0\n "
 " - timeout_estimate_coeff - column vector of length 0\n "
+" - eq_C - matrix of size 3x4\n "
+" - eq_D - matrix of size 3x4\n "
+" - eq_c - column vector of length 3\n "
 
 	"\nOUTPUTS:\n"
-	" - u0 - column vector of length 1\n "
+	" - outputs - column vector of length 1\n "
 
 	"\n For more information, see https://www.embotech.com/FORCES-Pro/How-to-use/Simulink-Interface/Simulink-Block \n "
 
-	Display			"port_label('input', 1, 'eq_C') \n  "
-"port_label('input', 2, 'eq_D') \n  "
-"port_label('input', 3, 'eq_c') \n  "
-"port_label('input', 4, 'cost_H_fin') \n  "
-"port_label('input', 5, 'cost_H') \n  "
-"port_label('input', 6, 'solver_timeout') \n  "
-"port_label('input', 7, 'timeout_estimate_coeff') \n  "
-"port_label('output', 1, 'u0') \n "
-"if( exist('FORCES_PRO_Logo.jpg','file') ), image(imread('FORCES_PRO_Logo.jpg'),'center','on'); elseif( exist(['interface',filesep,'FORCES_PRO_Logo.jpg'],'file') ), image(imread(['interface',filesep,'FORCES_PRO_Logo.jpg']),'center','on'); elseif( exist(['MPC_embotech_single_integrator_test_20201014203740_tunkapgen',filesep,'interface',filesep,'FORCES_PRO_Logo.jpg'],'file') ), image(imread(['MPC_embotech_single_integrator_test_20201014203740_tunkapgen',filesep,'interface',filesep,'FORCES_PRO_Logo.jpg']),'center','on'); end \n "
+	Display			"port_label('input', 1, 'H') \n  "
+"port_label('input', 2, 'solver_timeout') \n  "
+"port_label('input', 3, 'timeout_estimate_coeff') \n  "
+"port_label('input', 4, 'eq_C') \n  "
+"port_label('input', 5, 'eq_D') \n  "
+"port_label('input', 6, 'eq_c') \n  "
+"port_label('output', 1, 'outputs') \n "
+"if( exist('FORCES_PRO_Logo.jpg','file') ), image(imread('FORCES_PRO_Logo.jpg'),'center','on'); elseif( exist(['interface',filesep,'FORCES_PRO_Logo.jpg'],'file') ), image(imread(['interface',filesep,'FORCES_PRO_Logo.jpg']),'center','on'); elseif( exist(['MPC_embotech_single_integrator_test_20201017124559_tunkapgen',filesep,'interface',filesep,'FORCES_PRO_Logo.jpg'],'file') ), image(imread(['MPC_embotech_single_integrator_test_20201017124559_tunkapgen',filesep,'interface',filesep,'FORCES_PRO_Logo.jpg']),'center','on'); end \n "
 
       }
     }

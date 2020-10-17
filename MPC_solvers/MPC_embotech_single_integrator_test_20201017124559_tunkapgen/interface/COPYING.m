@@ -1,4 +1,4 @@
-% MPC_embotech_single_integrator_test_20201014203740_tunkapgen : A fast customized optimization solver.
+% MPC_embotech_single_integrator_test_20201017124559_tunkapgen : A fast customized optimization solver.
 % 
 % Copyright (C) 2013-2020 EMBOTECH AG [info@embotech.com]. All rights reserved.
 % 

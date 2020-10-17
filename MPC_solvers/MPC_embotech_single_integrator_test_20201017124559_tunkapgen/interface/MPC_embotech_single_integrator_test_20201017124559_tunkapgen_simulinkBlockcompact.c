@@ -1,5 +1,5 @@
 /*
-MPC_embotech_single_integrator_test_20201014203740_tunkapgen : A fast customized optimization solver.
+MPC_embotech_single_integrator_test_20201017124559_tunkapgen : A fast customized optimization solver.
 
 Copyright (C) 2013-2020 EMBOTECH AG [info@embotech.com]. All rights reserved.
 
@@ -24,14 +24,14 @@ jurisdiction in case of any dispute.
 
 
 #define S_FUNCTION_LEVEL 2
-#define S_FUNCTION_NAME MPC_embotech_single_integrator_test_20201014203740_tunkapgen_simulinkBlock
+#define S_FUNCTION_NAME MPC_embotech_single_integrator_test_20201017124559_tunkapgen_simulinkBlockcompact
 
 #include "simstruc.h"
 
 
 
 /* include FORCES functions and defs */
-#include "../include/MPC_embotech_single_integrator_test_20201014203740_tunkapgen.h" 
+#include "../include/MPC_embotech_single_integrator_test_20201017124559_tunkapgen.h" 
 
 /* SYSTEM INCLUDES FOR TIMING ------------------------------------------ */
 
@@ -43,7 +43,7 @@ jurisdiction in case of any dispute.
 #include "rtwtypes.h"
 #endif
 
-typedef MPC_embotech_single_integrator_test_20201014203740_tunkapgeninterface_float MPC_embotech_single_integrator_test_20201014203740_tunkapgennmpc_float;
+typedef MPC_embotech_single_integrator_test_20201017124559_tunkapgeninterface_float MPC_embotech_single_integrator_test_20201017124559_tunkapgennmpc_float;
 
 
 
@@ -71,51 +71,45 @@ static void mdlInitializeSizes(SimStruct *S)
     ssSetNumContStates(S, 0);
     ssSetNumDiscStates(S, 0);
 
-	/* initialize input ports - there are 7 in total */
-    if (!ssSetNumInputPorts(S, 7)) return;
+	/* initialize input ports - there are 6 in total */
+    if (!ssSetNumInputPorts(S, 6)) return;
     	
 	/* Input Port 0 */
-    ssSetInputPortMatrixDimensions(S,  0, 3, 4);
+    ssSetInputPortMatrixDimensions(S,  0, 4, 8);
     ssSetInputPortDataType(S, 0, SS_DOUBLE);
     ssSetInputPortComplexSignal(S, 0, COMPLEX_NO); /* no complex signals suppported */
     ssSetInputPortDirectFeedThrough(S, 0, 1); /* Feedthrough enabled */
     ssSetInputPortRequiredContiguous(S, 0, 1); /*direct input signal access*/	
 	/* Input Port 1 */
-    ssSetInputPortMatrixDimensions(S,  1, 3, 4);
+    ssSetInputPortMatrixDimensions(S,  1, 0, 1);
     ssSetInputPortDataType(S, 1, SS_DOUBLE);
     ssSetInputPortComplexSignal(S, 1, COMPLEX_NO); /* no complex signals suppported */
     ssSetInputPortDirectFeedThrough(S, 1, 1); /* Feedthrough enabled */
     ssSetInputPortRequiredContiguous(S, 1, 1); /*direct input signal access*/	
 	/* Input Port 2 */
-    ssSetInputPortMatrixDimensions(S,  2, 3, 1);
+    ssSetInputPortMatrixDimensions(S,  2, 0, 1);
     ssSetInputPortDataType(S, 2, SS_DOUBLE);
     ssSetInputPortComplexSignal(S, 2, COMPLEX_NO); /* no complex signals suppported */
     ssSetInputPortDirectFeedThrough(S, 2, 1); /* Feedthrough enabled */
     ssSetInputPortRequiredContiguous(S, 2, 1); /*direct input signal access*/	
 	/* Input Port 3 */
-    ssSetInputPortMatrixDimensions(S,  3, 4, 4);
+    ssSetInputPortMatrixDimensions(S,  3, 3, 4);
     ssSetInputPortDataType(S, 3, SS_DOUBLE);
     ssSetInputPortComplexSignal(S, 3, COMPLEX_NO); /* no complex signals suppported */
     ssSetInputPortDirectFeedThrough(S, 3, 1); /* Feedthrough enabled */
     ssSetInputPortRequiredContiguous(S, 3, 1); /*direct input signal access*/	
 	/* Input Port 4 */
-    ssSetInputPortMatrixDimensions(S,  4, 4, 4);
+    ssSetInputPortMatrixDimensions(S,  4, 3, 4);
     ssSetInputPortDataType(S, 4, SS_DOUBLE);
     ssSetInputPortComplexSignal(S, 4, COMPLEX_NO); /* no complex signals suppported */
     ssSetInputPortDirectFeedThrough(S, 4, 1); /* Feedthrough enabled */
     ssSetInputPortRequiredContiguous(S, 4, 1); /*direct input signal access*/	
 	/* Input Port 5 */
-    ssSetInputPortMatrixDimensions(S,  5, 0, 1);
+    ssSetInputPortMatrixDimensions(S,  5, 3, 1);
     ssSetInputPortDataType(S, 5, SS_DOUBLE);
     ssSetInputPortComplexSignal(S, 5, COMPLEX_NO); /* no complex signals suppported */
     ssSetInputPortDirectFeedThrough(S, 5, 1); /* Feedthrough enabled */
-    ssSetInputPortRequiredContiguous(S, 5, 1); /*direct input signal access*/	
-	/* Input Port 6 */
-    ssSetInputPortMatrixDimensions(S,  6, 0, 1);
-    ssSetInputPortDataType(S, 6, SS_DOUBLE);
-    ssSetInputPortComplexSignal(S, 6, COMPLEX_NO); /* no complex signals suppported */
-    ssSetInputPortDirectFeedThrough(S, 6, 1); /* Feedthrough enabled */
-    ssSetInputPortRequiredContiguous(S, 6, 1); /*direct input signal access*/ 
+    ssSetInputPortRequiredContiguous(S, 5, 1); /*direct input signal access*/ 
 
 
 	/* initialize output ports - there are 1 in total */
@@ -216,22 +210,21 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	FILE *fp = NULL;
 
 	/* Simulink data */
-	const real_T *eq_C = (const real_T*) ssGetInputPortSignal(S,0);
-	const real_T *eq_D = (const real_T*) ssGetInputPortSignal(S,1);
-	const real_T *eq_c = (const real_T*) ssGetInputPortSignal(S,2);
-	const real_T *cost_H_fin = (const real_T*) ssGetInputPortSignal(S,3);
-	const real_T *cost_H = (const real_T*) ssGetInputPortSignal(S,4);
-	const MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float *solver_timeout = (const MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float*) ssGetInputPortSignal(S,5);
-	const MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float *timeout_estimate_coeff = (const MPC_embotech_single_integrator_test_20201014203740_tunkapgen_float*) ssGetInputPortSignal(S,6);
+	const real_T *H = (const real_T*) ssGetInputPortSignal(S,0);
+	const MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float *solver_timeout = (const MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float*) ssGetInputPortSignal(S,1);
+	const MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float *timeout_estimate_coeff = (const MPC_embotech_single_integrator_test_20201017124559_tunkapgen_float*) ssGetInputPortSignal(S,2);
+	const real_T *eq_C = (const real_T*) ssGetInputPortSignal(S,3);
+	const real_T *eq_D = (const real_T*) ssGetInputPortSignal(S,4);
+	const real_T *eq_c = (const real_T*) ssGetInputPortSignal(S,5);
 	
-    real_T *u0 = (real_T*) ssGetOutputPortSignal(S,0);
+    real_T *outputs = (real_T*) ssGetOutputPortSignal(S,0);
 	
 	
 
 	/* Solver data */
-	static MPC_embotech_single_integrator_test_20201014203740_tunkapgen_params params;
-	static MPC_embotech_single_integrator_test_20201014203740_tunkapgen_output output;
-	static MPC_embotech_single_integrator_test_20201014203740_tunkapgen_info info;	
+	static MPC_embotech_single_integrator_test_20201017124559_tunkapgen_params params;
+	static MPC_embotech_single_integrator_test_20201017124559_tunkapgen_output output;
+	static MPC_embotech_single_integrator_test_20201017124559_tunkapgen_info info;	
 	solver_int32_default exitflag;
 
 	/* Extra NMPC data */
@@ -255,12 +248,13 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
 	for( i=0; i<16; i++)
 	{ 
-		params.cost_H_fin[i] = (double) cost_H_fin[i]; 
+		params.cost_H_fin[i] = (double) H[i]; 
 	}
 
+	j=16; 
 	for( i=0; i<16; i++)
 	{ 
-		params.cost_H[i] = (double) cost_H[i]; 
+		params.cost_H[i] = (double) H[j++]; 
 	}
 
 	params.solver_timeout = *solver_timeout;
@@ -271,7 +265,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
 	
 
-    #if SET_PRINTLEVEL_MPC_embotech_single_integrator_test_20201014203740_tunkapgen > 0
+    #if SET_PRINTLEVEL_MPC_embotech_single_integrator_test_20201017124559_tunkapgen > 0
 		/* Prepare file for printfs */
         fp = fopen("stdout_temp","w+");
 		if( fp == NULL ) 
@@ -282,9 +276,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	#endif
 
 	/* Call solver */
-	exitflag = MPC_embotech_single_integrator_test_20201014203740_tunkapgen_solve(&params, &output, &info, fp );
+	exitflag = MPC_embotech_single_integrator_test_20201017124559_tunkapgen_solve(&params, &output, &info, fp );
 
-	#if SET_PRINTLEVEL_MPC_embotech_single_integrator_test_20201014203740_tunkapgen > 0
+	#if SET_PRINTLEVEL_MPC_embotech_single_integrator_test_20201017124559_tunkapgen > 0
 		/* Read contents of printfs printed to file */
 		rewind(fp);
 		while( (i = fgetc(fp)) != EOF ) 
@@ -299,7 +293,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 	/* Copy outputs */
 	for( i=0; i<1; i++)
 	{ 
-		u0[i] = (real_T) output.u0[i]; 
+		outputs[i] = (real_T) output.u0[i]; 
 	}
 
 	

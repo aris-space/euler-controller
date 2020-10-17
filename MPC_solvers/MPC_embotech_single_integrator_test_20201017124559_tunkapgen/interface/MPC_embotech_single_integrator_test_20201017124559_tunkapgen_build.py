@@ -1,4 +1,4 @@
-#MPC_embotech_single_integrator_test_20201014203740_tunkapgen : A fast customized optimization solver.
+#MPC_embotech_single_integrator_test_20201017124559_tunkapgen : A fast customized optimization solver.
 #
 #Copyright (C) 2013-2020 EMBOTECH AG [info@embotech.com]. All rights reserved.
 #
@@ -30,22 +30,22 @@ import sys
 import distutils
 
 # determine source file
-sourcefile = os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201014203740_tunkapgen","src","MPC_embotech_single_integrator_test_20201014203740_tunkapgen"+".c")
+sourcefile = os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201017124559_tunkapgen","src","MPC_embotech_single_integrator_test_20201017124559_tunkapgen"+".c")
 
 # determine lib file
 if sys.platform.startswith('win'):
-	libfile = os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201014203740_tunkapgen","lib","MPC_embotech_single_integrator_test_20201014203740_tunkapgen"+".lib")
+	libfile = os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201017124559_tunkapgen","lib","MPC_embotech_single_integrator_test_20201017124559_tunkapgen"+".lib")
 else:
-	libfile = os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201014203740_tunkapgen","lib","MPC_embotech_single_integrator_test_20201014203740_tunkapgen"+".so")	
+	libfile = os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201017124559_tunkapgen","lib","MPC_embotech_single_integrator_test_20201017124559_tunkapgen"+".so")	
 
 # create lib dir if it does not exist yet
-if not os.path.exists(os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201014203740_tunkapgen","lib")):
-	os.makedirs(os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201014203740_tunkapgen","lib"))
+if not os.path.exists(os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201017124559_tunkapgen","lib")):
+	os.makedirs(os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201017124559_tunkapgen","lib"))
 								
 
 				
 # compile into object file
-objdir = os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201014203740_tunkapgen","obj")
+objdir = os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201017124559_tunkapgen","obj")
 if isinstance(c,distutils.unixccompiler.UnixCCompiler):
 	#objects = c.compile([sourcefile], output_dir=objdir, extra_preargs=['-O3','-fPIC','-fopenmp','-mavx'])
 	objects = c.compile([sourcefile], output_dir=objdir, extra_preargs=['-O3','-fPIC','-mavx'])
@@ -56,7 +56,7 @@ else:
 
 				
 # create libraries
-libdir = os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201014203740_tunkapgen","lib")
-exportsymbols = ["%s_solve" % "MPC_embotech_single_integrator_test_20201014203740_tunkapgen"]
-c.create_static_lib(objects, "MPC_embotech_single_integrator_test_20201014203740_tunkapgen", output_dir=libdir)
-c.link_shared_lib(objects, "MPC_embotech_single_integrator_test_20201014203740_tunkapgen", output_dir=libdir, export_symbols=exportsymbols)
+libdir = os.path.join(os.getcwd(),"MPC_embotech_single_integrator_test_20201017124559_tunkapgen","lib")
+exportsymbols = ["%s_solve" % "MPC_embotech_single_integrator_test_20201017124559_tunkapgen"]
+c.create_static_lib(objects, "MPC_embotech_single_integrator_test_20201017124559_tunkapgen", output_dir=libdir)
+c.link_shared_lib(objects, "MPC_embotech_single_integrator_test_20201017124559_tunkapgen", output_dir=libdir, export_symbols=exportsymbols)
