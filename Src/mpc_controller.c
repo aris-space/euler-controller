@@ -64,7 +64,7 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
                                                                                                                     &control_data->mpc_output, 
                                                                                                                     &control_data->mpc_info, NULL);
             #else
-                control_data->mpc_exitflag = MPC_embotech_single_integrator_test_20201017124559_tunkapgen_solve(&control_data->mpc_params,
+                control_data->mpc_exitflag = MPC_embotech_single_integrator_Full_scale_launch_20201020185541_tunkapgen_solve(&control_data->mpc_params,
                                                                                                                 &control_data->mpc_output, 
                                                                                                                 &control_data->mpc_info, NULL);
             #endif

@@ -40,10 +40,10 @@
         typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201019233222_output mpc_output_t;
         typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201019233222_info mpc_info_t;
     #else
-        #define SOLVER_HEADER "../MPC_solvers/MPC_embotech_single_integrator_test_20201017124559_tunkapgen/include/MPC_embotech_single_integrator_test_20201017124559_tunkapgen.h"
-        typedef struct MPC_embotech_single_integrator_test_20201017124559_tunkapgen_params mpc_params_t;
-        typedef struct MPC_embotech_single_integrator_test_20201017124559_tunkapgen_output mpc_output_t;
-        typedef struct MPC_embotech_single_integrator_test_20201017124559_tunkapgen_info mpc_info_t;
+        #define SOLVER_HEADER "../MPC_solvers/MPC_embotech_single_integrator_Full_scale_launch_20201020185541_tunkapgen/include/MPC_embotech_single_integrator_Full_scale_launch_20201020185541_tunkapgen.h"
+        typedef struct MPC_embotech_single_integrator_Full_scale_launch_20201020185541_tunkapgen_params mpc_params_t;
+        typedef struct MPC_embotech_single_integrator_Full_scale_launch_20201020185541_tunkapgen_output mpc_output_t;
+        typedef struct MPC_embotech_single_integrator_Full_scale_launch_20201020185541_tunkapgen_info mpc_info_t;
     #endif
     #include SOLVER_HEADER
 #endif
