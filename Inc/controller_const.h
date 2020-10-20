@@ -13,14 +13,15 @@
 #define CONTROLLER_TYPE 2                                                                    
 #define CONTROLLER_SAMPLING_FREQ 15.00000f                                                           // Hz
 #define POLY_DEG 30                                                                             // NEEDS CHANGE
-#define OPT_TRAJ_CONTROL_INPUT 0.4828753457f                                                    // -
+#define OPT_TRAJ_CONTROL_INPUT 0.50000f                                                    // -
 #define CONTROL_DEACTIVATION_ALTITUDE_AGL 3956.23699f                                     // NEEDS CHANGE
 #define MIN_BOUNDARAY_AW 0.5                                                                        // -                                                             // -
 #define M_AW 0.005                                                                              // -
 #define DELTA_T 1.0f / CONTROLLER_SAMPLING_FREQ                                                 // s
 #define TARGET_AGOGEE 4000.00f                                                                 // m
 
-#define HORIZON 10
+#define MPC_HORIZON 10
+#define MPC_MAXIT 15 /* maximum number of MPC solver iterations */
 
 #if CONTROLLER_TYPE == 0
     #define TEST_CONTROLLER_USE_VELOCITY false                                                       // -
@@ -30,24 +31,20 @@
     #define NUM_GAINS 3 
 #elif CONTROLLER_TYPE == 2
     #ifdef EULER_AV
-        #if HORIZON == 5
-            #define SOLVER_HEADER "../MPC_solvers/ARIS_Euler_MPC_embotech_single_integrator_hor5_20201016001622/include/ARIS_Euler_MPC_embotech_single_integrator_hor5_20201016001622.h"
-            typedef struct ARIS_Euler_MPC_embotech_single_integrator_hor5_20201016001622_params mpc_params_t;
-            typedef struct ARIS_Euler_MPC_embotech_single_integrator_hor5_20201016001622_output mpc_output_t;
-            typedef struct ARIS_Euler_MPC_embotech_single_integrator_hor5_20201016001622_info mpc_info_t;
+        #if MPC_HORIZON == 5
+            #define SOLVER_HEADER "../MPC_solvers/horizon_5/ARIS_Euler_MPC_embotech_single_integrator_20201019233222/include/ARIS_Euler_MPC_embotech_single_integrator_20201019233222.h"
         #else 
-            #define SOLVER_HEADER "../MPC_solvers/ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622/include/ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622.h"
-            typedef struct ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622_params mpc_params_t;
-            typedef struct ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622_output mpc_output_t;
-            typedef struct ARIS_Euler_MPC_embotech_single_integrator_hor10_20201016001622_info mpc_info_t;
+            #define SOLVER_HEADER "../MPC_solvers/horizon_10/ARIS_Euler_MPC_embotech_single_integrator_20201019233222/include/ARIS_Euler_MPC_embotech_single_integrator_20201019233222.h"
         #endif
+        typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201019233222_params mpc_params_t;
+        typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201019233222_output mpc_output_t;
+        typedef struct ARIS_Euler_MPC_embotech_single_integrator_20201019233222_info mpc_info_t;
     #else
         #define SOLVER_HEADER "../MPC_solvers/MPC_embotech_single_integrator_test_20201017124559_tunkapgen/include/MPC_embotech_single_integrator_test_20201017124559_tunkapgen.h"
         typedef struct MPC_embotech_single_integrator_test_20201017124559_tunkapgen_params mpc_params_t;
         typedef struct MPC_embotech_single_integrator_test_20201017124559_tunkapgen_output mpc_output_t;
         typedef struct MPC_embotech_single_integrator_test_20201017124559_tunkapgen_info mpc_info_t;
     #endif
-    // typedef void (*mpc_solver)();
     #include SOLVER_HEADER
 #endif
 
