@@ -1,8 +1,8 @@
 #include "../Inc/mpc_controller.h"
 
 void init_params(control_data_t *control_data) {
-    const float Q[3][3] = {{0.01000f, 0.00000f, 0.00000f}, {0.00000f, 1000.00000f, 0.00000f}, {0.00000f, 0.00000f, 10.00000f}};
-    control_data->R = 1000000.00000f;
+    const float Q[3][3] = {{0.01000f, 0.00000f, 0.00000f}, {0.00000f, 10.00000f, 0.00000f}, {0.00000f, 0.00000f, 10.00000f}};
+    control_data->R = 10000.00000f;
 
     memcpy(control_data->Q, Q, sizeof(Q));
 }
@@ -19,7 +19,8 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
         if (flight_phase_detection->flight_phase == CONTROL) {
             plant_linearization(control_data, flight_phase_detection, env);
 
-            float x0[3] = {0, control_data->reference_error, control_data->integrated_error};
+            float x0[3] = {control_data->control_input - OPT_TRAJ_CONTROL_INPUT, control_data->reference_error,
+                           control_data->integrated_error};
             float C[3][4] = {{0, 1, 0, 0}, 
                             {0, 0, control_data->Ad[0][0], control_data->Ad[0][1]}, 
                             {0, 0, control_data->Ad[1][0], control_data->Ad[1][1]}};
@@ -48,28 +49,24 @@ void compute_control_input(control_data_t *control_data, flight_phase_detection_
             }
             for (int j = 0; j < 4; j++){
                 for (int i = 0; i < 4; i++){
-                    #ifndef EULER_AV
-                        control_data->mpc_params.cost_H[j*4 + i] = cost_H[i][j];
-                    #endif
-
+                    control_data->mpc_params.cost_H[j*4 + i] = cost_H[i][j];
                     control_data->mpc_params.cost_H_fin[j*4 + i] = cost_H_fin[i][j];
                 }
             }
-
+            
             #ifdef EULER_AV
-                control_data->mpc_exitflag = ARIS_Euler_MPC_embotech_single_integrator_20201002120922_solve(&control_data->mpc_params, 
-                                                                                                            &control_data->mpc_output, 
-                                                                                                            &control_data->mpc_info, NULL);
-            #else
-                control_data->mpc_exitflag = MPC_embotech_single_integrator_test_20201008205150_tunkapgen_solve(&control_data->mpc_params, 
-                                                                                                                &control_data->mpc_output, 
-                                                                                                                &control_data->mpc_info, NULL);
+                /* TODO: we should also generate a solver in Python with which we can set the maximum number of iterations at runtime */
+                control_data->mpc_params.maxit = MPC_MAXIT;
             #endif
 
-            /* we are setting the solver_timeout to double of the controller frequency 
-               we want to be conservative as we want to allow some time for our internal computations */
-            #ifndef EULER_AV
-                control_data->mpc_params.solver_timeout = 1. / (2 *CONTROLLER_SAMPLING_FREQ);
+            #ifdef EULER_AV
+                control_data->mpc_exitflag = ARIS_Euler_MPC_embotech_single_integrator_20201019233222_solve(&control_data->mpc_params,
+                                                                                                                    &control_data->mpc_output, 
+                                                                                                                    &control_data->mpc_info, NULL);
+            #else
+                control_data->mpc_exitflag = MPC_embotech_single_integrator_test_20201017124559_tunkapgen_solve(&control_data->mpc_params,
+                                                                                                                &control_data->mpc_output, 
+                                                                                                                &control_data->mpc_info, NULL);
             #endif
 
             /* Exitflags:
