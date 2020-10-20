@@ -1,8 +1,8 @@
 #include "../Inc/mpc_controller.h"
 
 void init_params(control_data_t *control_data) {
-    const float Q[3][3] = {{0.01000f, 0.00000f, 0.00000f}, {0.00000f, 10.00000f, 0.00000f}, {0.00000f, 0.00000f, 10.00000f}};
-    control_data->R = 10000.00000f;
+    const float Q[3][3] = {{0.01000f, 0.00000f, 0.00000f}, {0.00000f, 8.00000f, 0.00000f}, {0.00000f, 0.00000f, 1.00000f}};
+    control_data->R = 5000.00000f;
 
     memcpy(control_data->Q, Q, sizeof(Q));
 }

@@ -11,14 +11,14 @@
 
 /* CONTROLLER_TYPE: 0=TEST_CONTROLLER, 1=LQR, 2=MPC */
 #define CONTROLLER_TYPE 2                                                                    
-#define CONTROLLER_SAMPLING_FREQ 15.00000f                                                           // Hz
+#define CONTROLLER_SAMPLING_FREQ 20.00000f                                                           // Hz
 #define POLY_DEG 30                                                                             // NEEDS CHANGE
 #define OPT_TRAJ_CONTROL_INPUT 0.50000f                                                    // -
-#define CONTROL_DEACTIVATION_ALTITUDE_AGL 3956.23699f                                     // NEEDS CHANGE
+#define CONTROL_DEACTIVATION_ALTITUDE_AGL 4463.63842f                                     // NEEDS CHANGE
 #define MIN_BOUNDARAY_AW 0.5                                                                        // -                                                             // -
 #define M_AW 0.005                                                                              // -
 #define DELTA_T 1.0f / CONTROLLER_SAMPLING_FREQ                                                 // s
-#define TARGET_AGOGEE 4000.00f                                                                 // m
+#define TARGET_AGOGEE 4478.00f                                                                // m
 
 #define MPC_HORIZON 10
 #define MPC_MAXIT 15 /* maximum number of MPC solver iterations */
