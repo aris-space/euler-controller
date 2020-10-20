@@ -34,8 +34,8 @@ void linear_model(control_data_t *control_data, flight_phase_detection_t *flight
 void get_C_A_AB(float airbrake_extension, flight_phase_detection_t *flight_phase_detection, float *C_A_AB){
     // linearization is done using CFD values
     float v_values[2] = {100.0f, 240.0f};
-    float C_A_values[2] = {1.7f, 1.89f};
-    float speed_of_sound = 310.0f;
+    float C_A_values[2] = {1.5f, 1.5f};
+    float speed_of_sound = 330.0f;
     float mach_values[2] = {v_values[0] / speed_of_sound, v_values[1] / speed_of_sound};
     float C_A_AB_full = 0.0f;
     interpolate(C_A_values, mach_values, flight_phase_detection->mach_number, &C_A_AB_full);
